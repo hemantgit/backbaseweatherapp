@@ -1,4 +1,4 @@
-package bartburg.nl.backbaseweather.provision.controller;
+package bartburg.nl.backbaseweather.provision.remote.controller;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,8 +12,8 @@ import java.net.URL;
 import java.util.HashMap;
 
 import bartburg.nl.backbaseweather.AppConstants;
-import bartburg.nl.backbaseweather.provision.annotation.ApiController;
-import bartburg.nl.backbaseweather.provision.helper.QueryStringHelper;
+import bartburg.nl.backbaseweather.provision.remote.annotation.ApiController;
+import bartburg.nl.backbaseweather.provision.remote.helper.QueryStringHelper;
 
 import static bartburg.nl.backbaseweather.AppConstants.OPEN_WEATHER_MAP_BASE_URL;
 import static bartburg.nl.backbaseweather.AppConstants.OPEN_WEATHER_PROTOCOL;

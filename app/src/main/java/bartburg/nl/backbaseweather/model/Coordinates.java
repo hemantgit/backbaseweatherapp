@@ -33,8 +33,14 @@ public class Coordinates implements Parcelable
             return (new Coordinates[size]);
         }
 
+    };
+
+    public Coordinates(){}
+
+    public Coordinates(Double lat, Double lon) {
+        this.lat = lat;
+        this.lon = lon;
     }
-    ;
 
     public Double getLat() {
         return lat;

@@ -1,5 +1,5 @@
 
-package bartburg.nl.backbaseweather.provision.controller.forecast;
+package bartburg.nl.backbaseweather.provision.remote.controller.forecast;
 
 import java.util.ArrayList;
 import java.util.List;

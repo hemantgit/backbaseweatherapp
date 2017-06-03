@@ -1,4 +1,4 @@
-package bartburg.nl.backbaseweather.provision.helper;
+package bartburg.nl.backbaseweather.provision.remote.helper;
 
 import junit.framework.Assert;
 

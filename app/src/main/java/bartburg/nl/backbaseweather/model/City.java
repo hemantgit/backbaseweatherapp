@@ -41,8 +41,15 @@ public class City implements Parcelable
             return (new City[size]);
         }
 
+    };
+
+    public City(){}
+
+    public City(Integer id, String cityName, Coordinates coordinates) {
+        this.id = id;
+        this.name = cityName;
+        this.coordinates = coordinates;
     }
-    ;
 
     public Integer getId() {
         return id;

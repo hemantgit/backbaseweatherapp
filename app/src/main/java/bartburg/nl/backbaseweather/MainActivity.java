@@ -11,9 +11,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import bartburg.nl.backbaseweather.provision.controller.BaseApiController;
-import bartburg.nl.backbaseweather.provision.controller.forecast.ForecastApiController;
-import bartburg.nl.backbaseweather.provision.controller.forecast.ForecastResponse;
+import bartburg.nl.backbaseweather.provision.remote.controller.BaseApiController;
+import bartburg.nl.backbaseweather.provision.remote.controller.forecast.ForecastApiController;
+import bartburg.nl.backbaseweather.provision.remote.controller.forecast.ForecastResponse;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -48,17 +48,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-        new ForecastApiController().getForecast("Den Bosch", new ForecastApiController.OnForecastResponseListener() {
-            @Override
-            public void onSuccess(ForecastResponse forecastResponse) {
-                Log.d("MainActivity", "success");
-            }
-        }, new BaseApiController.OnErrorListener() {
-            @Override
-            public void onError(int responseCode, String responseMessage) {
-                Log.d("MainActivity", "fail");
-            }
-        });
     }
 
     @Override

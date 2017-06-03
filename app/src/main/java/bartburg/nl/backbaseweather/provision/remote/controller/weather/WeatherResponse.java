@@ -1,5 +1,5 @@
 
-package bartburg.nl.backbaseweather.provision.controller.weather;
+package bartburg.nl.backbaseweather.provision.remote.controller.weather;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,8 +55,6 @@ public class WeatherResponse implements Parcelable
     @Expose
     private Integer responseCode;
     public final static Parcelable.Creator<WeatherResponse> CREATOR = new Creator<WeatherResponse>() {
-
-
         @SuppressWarnings({
                 "unchecked"
         })
