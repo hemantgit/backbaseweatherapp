@@ -1,5 +1,5 @@
 
-package bartburg.nl.backbaseweather.provision.weather;
+package bartburg.nl.backbaseweather.provision.controllers.weather;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,9 +51,9 @@ public class WeatherResponse implements Parcelable
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("cod")
+    @SerializedName("responseCode")
     @Expose
-    private Integer cod;
+    private Integer responseCode;
     public final static Parcelable.Creator<WeatherResponse> CREATOR = new Creator<WeatherResponse>() {
 
 
@@ -73,7 +73,7 @@ public class WeatherResponse implements Parcelable
             instance.sys = ((Sys) in.readValue((Sys.class.getClassLoader())));
             instance.id = ((Integer) in.readValue((Integer.class.getClassLoader())));
             instance.name = ((String) in.readValue((String.class.getClassLoader())));
-            instance.cod = ((Integer) in.readValue((Integer.class.getClassLoader())));
+            instance.responseCode = ((Integer) in.readValue((Integer.class.getClassLoader())));
             return instance;
         }
 
@@ -171,12 +171,12 @@ public class WeatherResponse implements Parcelable
         this.name = name;
     }
 
-    public Integer getCod() {
-        return cod;
+    public Integer getResponseCode() {
+        return responseCode;
     }
 
-    public void setCod(Integer cod) {
-        this.cod = cod;
+    public void setResponseCode(Integer responseCode) {
+        this.responseCode = responseCode;
     }
 
     public void writeToParcel(Parcel dest, int flags) {
@@ -191,7 +191,7 @@ public class WeatherResponse implements Parcelable
         dest.writeValue(sys);
         dest.writeValue(id);
         dest.writeValue(name);
-        dest.writeValue(cod);
+        dest.writeValue(responseCode);
     }
 
     public int describeContents() {

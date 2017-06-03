@@ -1,5 +1,5 @@
 
-package bartburg.nl.backbaseweather.provision.forecast;
+package bartburg.nl.backbaseweather.provision.controllers.forecast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +15,9 @@ import bartburg.nl.backbaseweather.model.Forecast;
 public class ForecastResponse implements Parcelable
 {
 
-    @SerializedName("cod")
+    @SerializedName("responseCode")
     @Expose
-    private String cod;
+    private String responseCode;
     @SerializedName("message")
     @Expose
     private Double message;
@@ -38,7 +38,7 @@ public class ForecastResponse implements Parcelable
         })
         public ForecastResponse createFromParcel(Parcel in) {
             ForecastResponse instance = new ForecastResponse();
-            instance.cod = ((String) in.readValue((String.class.getClassLoader())));
+            instance.responseCode = ((String) in.readValue((String.class.getClassLoader())));
             instance.message = ((Double) in.readValue((Double.class.getClassLoader())));
             instance.cnt = ((Integer) in.readValue((Integer.class.getClassLoader())));
             in.readList(instance.forecast, (bartburg.nl.backbaseweather.model.Forecast.class.getClassLoader()));
@@ -53,12 +53,12 @@ public class ForecastResponse implements Parcelable
     }
     ;
 
-    public String getCod() {
-        return cod;
+    public String getResponseCode() {
+        return responseCode;
     }
 
-    public void setCod(String cod) {
-        this.cod = cod;
+    public void setResponseCode(String responseCode) {
+        this.responseCode = responseCode;
     }
 
     public Double getMessage() {
@@ -94,7 +94,7 @@ public class ForecastResponse implements Parcelable
     }
 
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(cod);
+        dest.writeValue(responseCode);
         dest.writeValue(message);
         dest.writeValue(cnt);
         dest.writeList(forecast);

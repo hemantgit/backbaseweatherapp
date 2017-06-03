@@ -8,7 +8,7 @@ package bartburg.nl.backbaseweather;
 public class AppConstants {
 
     // Open Weather Map
-    public static String OpenWeatherMapBaseUrl = "api.openweathermap.org/data/2.5/";
-    public static String OpenWeatherMapKey = "c6e381d8c7ff98f0fee43775817cf6ad";
-
+    public static String OPEN_WEATHER_PROTOCOL = "http://";
+    public static String OPEN_WEATHER_MAP_BASE_URL = "api.openweathermap.org/data/2.5/";
+    public static String OPEN_WEATHER_MAP_KEY = "c6e381d8c7ff98f0fee43775817cf6ad";
 }
