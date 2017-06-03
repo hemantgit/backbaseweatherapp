@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:layout_margin="20dp"
+    android:background="@drawable/background_card"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/icon_weather"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/sun"
+        android:tint="@color/blue1"
+        android:layout_centerVertical="true"/>
+
+    <View
+        android:id="@+id/center_line"
+        android:layout_width="0dp"
+        android:layout_height="3dp"
+        android:layout_centerVertical="true"/>
+
+    <TextView
+        android:id="@+id/id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/center_line"
+        android:layout_marginLeft="@dimen/text_margin"
+        android:layout_toRightOf="@id/icon_weather"
+        android:textAppearance="?attr/textAppearanceListItem" />
+
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/text_margin"
+        android:layout_toRightOf="@id/icon_weather"
+        android:layout_below="@id/center_line"
+        android:text="20°C / Sunny"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:textStyle="italic"
+        android:textColor="@color/grey"/>
+
+    <View
+        android:id="@+id/remove_click_area"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        />
+
+    <ImageView
+        android:id="@+id/remove_icon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="center"
+        android:src="@drawable/close_circular_button_of_a_cross"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:tint="@color/blue3"/>
+
+</RelativeLayout>

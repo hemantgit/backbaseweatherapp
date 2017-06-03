@@ -2,21 +2,34 @@ package bartburg.nl.backbaseweather;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import bartburg.nl.backbaseweather.provision.remote.controller.BaseApiController;
-import bartburg.nl.backbaseweather.provision.remote.controller.forecast.ForecastApiController;
-import bartburg.nl.backbaseweather.provision.remote.controller.forecast.ForecastResponse;
+import bartburg.nl.backbaseweather.model.City;
+import bartburg.nl.backbaseweather.provision.local.controller.city.CityDbHandler;
+import bartburg.nl.backbaseweather.view.bookmarks.BookmarksListFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, BookmarksListFragment.OnListFragmentInteractionListener {
+
+    @Override
+    public void onListFragmentInteraction(City item) {
+
+    }
+
+    public enum FragmentName {
+        BOOKMARKS,
+        HELP,
+        LOCATION,
+        SETTINGS
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +46,9 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        new CityDbHandler(this).addCity(new City(-1, "Den Bosch", null));
+        openFragment(FragmentName.BOOKMARKS);
     }
 
     @Override
@@ -76,18 +92,42 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
+        if (id == R.id.nav_bookmarks) {
+            openFragment(FragmentName.BOOKMARKS);
+        } else if (id == R.id.nav_location) {
+            openFragment(FragmentName.LOCATION);
+        } else if (id == R.id.nav_help) {
+            openFragment(FragmentName.HELP);
+        } else if (id == R.id.nav_settings) {
+            openFragment(FragmentName.SETTINGS);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    private void openFragment(FragmentName fragmentName){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        switch (fragmentName){
+            case BOOKMARKS:
+                fragmentTransaction.replace(R.id.main_fragment_container, BookmarksListFragment.newInstance(1));
+                break;
+            case LOCATION:
+                //TODO open location fragment
+                fragmentTransaction.replace(R.id.main_fragment_container, BookmarksListFragment.newInstance(1));
+                break;
+            case HELP:
+                //TODO open help fragment
+                fragmentTransaction.replace(R.id.main_fragment_container, BookmarksListFragment.newInstance(1));
+                break;
+            case SETTINGS:
+                //TODO open settings fragment
+                fragmentTransaction.replace(R.id.main_fragment_container, BookmarksListFragment.newInstance(1));
+                break;
+        }
+        fragmentTransaction.commit();
+    }
+
 }

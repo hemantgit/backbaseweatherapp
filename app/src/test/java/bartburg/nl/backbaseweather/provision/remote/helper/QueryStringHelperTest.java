@@ -20,7 +20,7 @@ public class QueryStringHelperTest {
         testMap.put("lat", "45.234342364");
         testMap.put("long", "-45.234342364");
         String queryString = QueryStringHelper.mapToQueryString(testMap);
-        Pattern pattern = Pattern.compile("^\\?(\\w+(=[\\w.-]*)?(&\\w+(=[\\w.-]*)?)*)?$");
+        Pattern pattern = Pattern.compile("^\\?([^=]+=[^=]+&)+[^=]+(=[^=]+)?$");
         Matcher matcher = pattern.matcher(queryString);
         Assert.assertTrue(matcher.matches());
     }
