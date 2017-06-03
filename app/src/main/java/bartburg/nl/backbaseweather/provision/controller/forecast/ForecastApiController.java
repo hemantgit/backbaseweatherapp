@@ -1,4 +1,4 @@
-package bartburg.nl.backbaseweather.provision.controllers.forecast;
+package bartburg.nl.backbaseweather.provision.controller.forecast;
 
 import android.os.AsyncTask;
 
@@ -7,7 +7,7 @@ import com.google.gson.Gson;
 import java.util.HashMap;
 
 import bartburg.nl.backbaseweather.model.Coordinates;
-import bartburg.nl.backbaseweather.provision.controllers.BaseApiController;
+import bartburg.nl.backbaseweather.provision.controller.BaseApiController;
 import bartburg.nl.backbaseweather.provision.annotation.ApiController;
 
 /**

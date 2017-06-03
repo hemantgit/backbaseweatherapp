@@ -11,9 +11,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import bartburg.nl.backbaseweather.provision.controllers.BaseApiController;
-import bartburg.nl.backbaseweather.provision.controllers.forecast.ForecastApiController;
-import bartburg.nl.backbaseweather.provision.controllers.forecast.ForecastResponse;
+import bartburg.nl.backbaseweather.provision.controller.BaseApiController;
+import bartburg.nl.backbaseweather.provision.controller.forecast.ForecastApiController;
+import bartburg.nl.backbaseweather.provision.controller.forecast.ForecastResponse;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

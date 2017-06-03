@@ -1,4 +1,4 @@
-package bartburg.nl.backbaseweather.provision.controllers;
+package bartburg.nl.backbaseweather.provision.controller;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
