@@ -93,6 +93,12 @@ public class ForecastResponse implements Parcelable
         this.city = city;
     }
 
+    public int getCityId(){
+        if(city == null)
+            return -1;
+        return city.getId();
+    }
+
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeValue(responseCode);
         dest.writeValue(message);

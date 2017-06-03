@@ -47,7 +47,7 @@ public class WeatherResponse implements Parcelable
     private Sys sys;
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private Integer id; //This is the city id
     @SerializedName("name")
     @Expose
     private String name;
@@ -196,4 +196,7 @@ public class WeatherResponse implements Parcelable
         return  0;
     }
 
+    public int getCityId() {
+        return id;
+    }
 }
