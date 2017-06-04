@@ -1,5 +1,7 @@
 package bartburg.nl.backbaseweather;
 
+import bartburg.nl.backbaseweather.enumeration.WeatherUnitSystem;
+
 /**
  * Created by Bart on 6/3/2017.
  * Class to keep all the static app global constants.
@@ -18,5 +20,5 @@ public class AppConstants {
 
     public static final long FORECAST_EXPIRED_AFTER = 1000 * 60 * 5;
 
-    public static final int TEMPERATURE_UNIT_SYSTEM = 0;
+    public static final WeatherUnitSystem WEATHER_UNIT_SYSTEM = WeatherUnitSystem.CELCIUS;
 }

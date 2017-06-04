@@ -16,7 +16,7 @@ public class WeatherDescriptionHelper {
     public static DecimalFormat decimalFormat = new DecimalFormat("#.0");
 
     public static String getShortDescription(WeatherResponse weatherResponse) {
-        return getTemperature(weatherResponse) + getWeatherMessage(weatherResponse);
+        return getTemperature(weatherResponse, true) + getWeatherMessage(weatherResponse);
     }
 
     private static String getWeatherMessage(WeatherResponse weatherResponse) {
@@ -29,8 +29,8 @@ public class WeatherDescriptionHelper {
         return "";
     }
 
-    private static String getTemperature(WeatherResponse weatherResponse) {
-        return TemperatureUnitHelper.getTemperatureString(weatherResponse.getMain().getTemp());
+    public static String getTemperature(WeatherResponse weatherResponse, boolean withUnit) {
+        return TemperatureUnitHelper.getTemperatureString(weatherResponse.getMain().getTemp(), withUnit);
     }
 
     public static int getWeatherImage(WeatherResponse weatherResponse) {

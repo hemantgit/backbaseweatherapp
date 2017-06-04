@@ -20,6 +20,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.crashlytics.android.Crashlytics;
+
 import bartburg.nl.backbaseweather.model.City;
 import bartburg.nl.backbaseweather.model.Coordinates;
 import bartburg.nl.backbaseweather.provision.local.controller.city.CityDbHandler;
@@ -30,11 +32,10 @@ import bartburg.nl.backbaseweather.view.bookmarks.BookmarksTabHostFragment;
 import bartburg.nl.backbaseweather.view.bookmarks.CityAction;
 import bartburg.nl.backbaseweather.view.bookmarks.OnBookmarkInteractionListener;
 import bartburg.nl.backbaseweather.view.location.LocationFragment;
-import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, OnBookmarkInteractionListener, LocationFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, OnBookmarkInteractionListener, LocationFragment.OnCityBookmarkChangedListener {
 
     public static final int PERMISSION_ACCESS_ACCESS_FINE_LOCATION = 1;
     private LocationManager locationManager;
@@ -42,17 +43,17 @@ public class MainActivity extends AppCompatActivity
     private NavigationView navigationView;
 
     @Override
-    public void onFragmentInteraction(City city) {
-        if(city.isBookmarked()){
-            new CityDbHandler(this).deleteCity(city);
-        } else {
+    public void onCityBookmarkChanged(City city, boolean bookmark) {
+        if (bookmark) {
             new CityDbHandler(this).addCity(city);
+        } else {
+            new CityDbHandler(this).deleteCity(city);
         }
     }
 
     @Override
     public void onBookmarkInteraction(City cityInteracted, CityAction action) {
-        switch (action){
+        switch (action) {
             case ADD:
                 new CityDbHandler(this).addCity(cityInteracted);
                 break;
@@ -86,6 +87,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         initNavigationDrawer(toolbar);
         getUserLocation();
+        openFirstFragment();
     }
 
     private void getUserLocation() {
@@ -118,8 +120,7 @@ public class MainActivity extends AppCompatActivity
         new WeatherApiController().getWeather(new Coordinates(location.getLatitude(), location.getLongitude()), new WeatherApiController.OnWeatherResponseListener() {
             @Override
             public void onSuccess(WeatherResponse weatherResponse) {
-                new CityDbHandler(MainActivity.this).addCity(weatherResponse.getCity());
-                openFragment(FragmentName.BOOKMARKS);
+                currentCity = weatherResponse.getCity();
             }
         }, null);
     }
@@ -204,7 +205,7 @@ public class MainActivity extends AppCompatActivity
                 fragmentTransaction.replace(R.id.main_fragment_container, BookmarksTabHostFragment.newInstance(0));
                 break;
             case LOCATION:
-                fragmentTransaction.replace(R.id.main_fragment_container, LocationFragment.newInstance(null));
+                fragmentTransaction.replace(R.id.main_fragment_container, LocationFragment.newInstance(currentCity));
                 break;
             case HELP:
                 fragmentTransaction.replace(R.id.main_fragment_container, BookmarksListFragment.newInstance(1));

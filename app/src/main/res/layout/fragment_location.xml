@@ -14,25 +14,24 @@
         android:layout_marginBottom="30dp"
         android:padding="20dp">
 
-        <TextView
-            android:id="@+id/city_name_textview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:gravity="center_horizontal"
-            android:text="Den Bosch"
-            android:textColor="@color/white"
-            android:textSize="30sp" />
-
         <ImageView
             android:id="@+id/bookmarked_icon"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="10dp"
+            android:layout_margin="20dp"
             android:tint="@color/white"
             app:srcCompat="@drawable/bookmarks" />
+
+        <TextView
+            android:id="@+id/city_name_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bookmarked_icon"
+            android:gravity="center_horizontal"
+            android:text="@string/label_no_information_yet"
+            android:textColor="@color/white"
+            android:textSize="30sp" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -47,12 +46,21 @@
             android:layout_centerInParent="true">
 
 
+            <ImageView
+                android:id="@+id/weather_imageview"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                app:srcCompat="@drawable/sun"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="20dp"/>
+
             <TextView
-                android:id="@+id/temperature"
+                android:id="@+id/temperature_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/weather_imageview"
                 android:layout_marginTop="5dp"
-                android:text="36"
+                android:text="@string/label_no_information_yet"
                 android:textColor="@color/white"
                 android:textSize="80sp" />
 
@@ -60,28 +68,19 @@
                 android:id="@+id/degrees"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/temperature"
+                android:layout_toRightOf="@id/temperature_textview"
                 android:text="°"
                 android:textColor="@color/white"
                 android:textSize="60sp" />
 
             <TextView
-                android:id="@+id/unit_system"
+                android:id="@+id/unit_system_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/degrees"
                 android:text="C"
                 android:textColor="@color/white"
                 android:textSize="60sp" />
-
-            <ImageView
-                android:id="@+id/weather_image"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/temperature"
-                android:layout_alignTop="@id/temperature"
-                android:layout_toLeftOf="@id/temperature"
-                app:srcCompat="@drawable/sun" />
         </RelativeLayout>
     </RelativeLayout>
 

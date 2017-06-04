@@ -17,9 +17,9 @@ public class ForecastDataPresenter {
     }
 
     public static String getTemperatureText(Forecast forecast) {
-        return TemperatureUnitHelper.getTemperatureString(forecast.getTemp().getMax())
+        return TemperatureUnitHelper.getTemperatureString(forecast.getTemp().getMax(), true)
                 + "\n"
-                + TemperatureUnitHelper.getTemperatureString(forecast.getTemp().getMin());
+                + TemperatureUnitHelper.getTemperatureString(forecast.getTemp().getMin(), true);
     }
 
     public static String getHumidityText(Forecast forecast) {

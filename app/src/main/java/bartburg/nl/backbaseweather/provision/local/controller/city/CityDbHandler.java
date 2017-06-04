@@ -117,7 +117,9 @@ public class CityDbHandler extends SQLiteOpenHelper {
 
     public boolean cityInDb(int cityId) {
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT EXISTS(SELECT 1 FROM " + CITY_TABLE_NAME + " WHERE " + COLUMN_ID + "=" + cityId + " LIMIT 1);", null);
-        return cursor.getCount() > 0;
+        Cursor cursor = db.rawQuery("SELECT * FROM " + CITY_TABLE_NAME + " WHERE " + COLUMN_ID + " = " + cityId + ";", null);
+        boolean inDb = cursor.getCount() > 0;
+        cursor.close();
+        return inDb;
     }
 }

@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import bartburg.nl.backbaseweather.R;
 import bartburg.nl.backbaseweather.model.Forecast;
 import bartburg.nl.backbaseweather.provision.remote.controller.forecast.ForecastResponse;
-import bartburg.nl.backbaseweather.view.location.helper.ForecastDataPresenter;
 import bartburg.nl.backbaseweather.view.location.helper.FirstDayCharacterProvider;
+import bartburg.nl.backbaseweather.view.location.helper.ForecastDataPresenter;
 
 /**
  * TODO DESCRIPTIVE TEXT
@@ -79,7 +79,7 @@ public class LocationForecastFragment extends Fragment {
         for (int i = 0; i < forecastDayViewHolders.size(); i++) {
             ForecastDayViewHolder forecastDayViewHolder = forecastDayViewHolders.get(i);
             Forecast forecast = forecastDayViewHolder.getForecast();
-            forecastDayViewHolder.getLabelTextView().setText(FirstDayCharacterProvider.getFirstDayCharacter(i + 1));
+            forecastDayViewHolder.getLabelTextView().setText(FirstDayCharacterProvider.getFirstDayCharacter(i));
             forecastDayViewHolder.getTemperatureTextView().setText(ForecastDataPresenter.getTemperatureText(forecast));
             forecastDayViewHolder.getHumidityTextView().setText(ForecastDataPresenter.getHumidityText(forecast));
             forecastDayViewHolder.getRainChanceTextView().setText(ForecastDataPresenter.getRainChanceText(forecast));

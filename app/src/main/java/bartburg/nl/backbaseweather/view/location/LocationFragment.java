@@ -12,19 +12,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import bartburg.nl.backbaseweather.MainActivity;
 import bartburg.nl.backbaseweather.R;
+import bartburg.nl.backbaseweather.enumeration.WeatherUnitSystem;
+import bartburg.nl.backbaseweather.helper.WeatherDescriptionHelper;
 import bartburg.nl.backbaseweather.model.City;
 import bartburg.nl.backbaseweather.provision.local.controller.city.CityDbHandler;
 import bartburg.nl.backbaseweather.provision.remote.controller.BaseApiController;
 import bartburg.nl.backbaseweather.provision.remote.controller.forecast.ForecastApiController;
 import bartburg.nl.backbaseweather.provision.remote.controller.forecast.ForecastResponse;
+import bartburg.nl.backbaseweather.provision.remote.controller.weather.WeatherApiController;
+import bartburg.nl.backbaseweather.provision.remote.controller.weather.WeatherResponse;
+
+import static bartburg.nl.backbaseweather.AppConstants.WEATHER_UNIT_SYSTEM;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link LocationFragment.OnFragmentInteractionListener} interface
+ * {@link OnCityBookmarkChangedListener} interface
  * to handle interaction events.
  * Use the {@link LocationFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -33,11 +41,16 @@ public class LocationFragment extends Fragment implements OnCurrentCityLoadedLis
     private static final String TAG_CITY = "city";
 
     private City city;
-    private MainActivity parent;
+    private MainActivity mainActivityParent;
     public ForecastResponse forecastResponse;
     private boolean cityBookmarked = false;
     private float currentBookmarkIconAlpha = 0.15f;
+
     private View bookmarkIcon;
+    private TextView unitSystemTextView;
+    private TextView temperatureTextView;
+    private TextView cityNameTextView;
+    private ImageView weatherIconImageView;
 
 
     public LocationFragment() {
@@ -65,18 +78,43 @@ public class LocationFragment extends Fragment implements OnCurrentCityLoadedLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View parent = inflater.inflate(R.layout.fragment_location, container, false);
-        getForecast();
+        final View parentView = inflater.inflate(R.layout.fragment_location, container, false);
+        getViews(parentView);
+        setViewValues();
+        getWeatherAndForecast();
         if (city != null) {
             cityBookmarked = new CityDbHandler(getContext()).cityInDb(city.getId());
+            currentBookmarkIconAlpha = cityBookmarked ? 1f : 0.15f;
         }
-        bookmarkIcon = parent.findViewById(R.id.bookmarked_icon);
-        setBookmarkedIcon(parent, false);
-        setBookmarkIconClickListener(parent);
-        return parent;
+        setBookmarkedIcon(parentView, false);
+        setBookmarkIconClickListener();
+        return parentView;
     }
 
-    private void setBookmarkIconClickListener(View parent) {
+
+    private void getViews(View parent) {
+        bookmarkIcon = parent.findViewById(R.id.bookmarked_icon);
+        cityNameTextView = (TextView) parent.findViewById(R.id.city_name_textview);
+        unitSystemTextView = (TextView) parent.findViewById(R.id.unit_system_textview);
+        temperatureTextView = (TextView) parent.findViewById(R.id.temperature_textview);
+        weatherIconImageView = (ImageView) parent.findViewById(R.id.weather_imageview);
+    }
+
+    private void setViewValues() {
+        if (city != null) {
+            cityNameTextView.setText(city.getName());
+            unitSystemTextView.setText(WEATHER_UNIT_SYSTEM == WeatherUnitSystem.CELCIUS ? "C" : "F");
+        }
+    }
+
+    public MainActivity getMainActivityParent() {
+        if (mainActivityParent == null) {
+            mainActivityParent = (MainActivity) getActivity();
+        }
+        return mainActivityParent;
+    }
+
+    private void setBookmarkIconClickListener() {
         bookmarkIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,26 +134,60 @@ public class LocationFragment extends Fragment implements OnCurrentCityLoadedLis
         }
     }
 
-    private void getForecast() {
+    private void getWeatherAndForecast() {
         if (city == null) {
             return;
         }
+        getForecast();
+        getWeather();
+    }
+
+    private void getWeather() {
+        new WeatherApiController().getWeather(city.getName(), new WeatherApiController.OnWeatherResponseListener() {
+            @Override
+            public void onSuccess(final WeatherResponse weatherResponse) {
+                View view = getView();
+                if (view != null) {
+                    view.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            temperatureTextView.setText(WeatherDescriptionHelper.getTemperature(weatherResponse, false));
+                            int weatherImage = WeatherDescriptionHelper.getWeatherImage(weatherResponse);
+                            if (weatherImage > 0) {
+                                weatherIconImageView.setImageResource(weatherImage);
+                            }
+                        }
+                    });
+                }
+            }
+        }, null);
+    }
+
+    private void getForecast() {
         new ForecastApiController().getForecast(city.getName(), new ForecastApiController.OnForecastResponseListener() {
             @Override
-            public void onSuccess(ForecastResponse forecastResponse) {
-                if (LocationFragment.this.parent == null) {
-                    return;
+            public void onSuccess(final ForecastResponse forecastResponse) {
+                View view = getView();
+                if (view != null) {
+                    view.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (LocationFragment.this.mainActivityParent == null) {
+                                return;
+                            }
+                            LocationFragment.this.forecastResponse = forecastResponse;
+                            updateScreen();
+                        }
+                    });
                 }
-                LocationFragment.this.forecastResponse = forecastResponse;
-                updateScreen();
             }
         }, new BaseApiController.OnErrorListener() {
             @Override
             public void onError(int responseCode, String responseMessage) {
-                if (LocationFragment.this.parent == null) {
+                if (LocationFragment.this.mainActivityParent == null) {
                     return;
                 }
-                new AlertDialog.Builder(LocationFragment.this.parent)
+                new AlertDialog.Builder(LocationFragment.this.mainActivityParent)
                         .setTitle("Oops!")
                         .setMessage("Something went wrong, couldn't retrieve data from server.")
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -139,10 +211,10 @@ public class LocationFragment extends Fragment implements OnCurrentCityLoadedLis
     }
 
     public void toggleBookmarkThisCity() {
-        if (parent != null && city != null) {
+        if (getMainActivityParent() != null && city != null) {
             cityBookmarked = !cityBookmarked;
             city.setBookmarked(cityBookmarked);
-            parent.onFragmentInteraction(city);
+            getMainActivityParent().onCityBookmarkChanged(city, cityBookmarked);
             setBookmarkedIcon(getView(), true);
         }
     }
@@ -151,7 +223,7 @@ public class LocationFragment extends Fragment implements OnCurrentCityLoadedLis
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof MainActivity) {
-            parent = (MainActivity) context;
+            mainActivityParent = (MainActivity) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must be attached to MainActivity");
@@ -161,19 +233,19 @@ public class LocationFragment extends Fragment implements OnCurrentCityLoadedLis
     @Override
     public void onDetach() {
         super.onDetach();
-        parent = null;
+        mainActivityParent = null;
     }
 
     @Override
     public void cityLoaded(City city) {
         this.city = city;
-        getForecast();
+        getWeatherAndForecast();
     }
 
     /**
      *
      */
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(City city);
+    public interface OnCityBookmarkChangedListener {
+        void onCityBookmarkChanged(City city, boolean bookmark);
     }
 }
