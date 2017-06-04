@@ -1,0 +1,255 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blue3"
+    android:orientation="vertical"
+    tools:context="bartburg.nl.backbaseweather.view.location.LocationForecastFragment">
+
+    <RelativeLayout
+        android:id="@+id/city_header_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:layout_marginBottom="50dp">
+
+        <TextView
+            android:id="@+id/city_name_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/blue2"
+            android:gravity="center_horizontal"
+            android:padding="15dp"
+            android:text="Den Bosch"
+            android:textColor="@color/white"
+            android:textSize="22sp" />
+
+        <ImageView
+            android:id="@+id/bookmarked_icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
+            android:alpha="0.3"
+            app:srcCompat="@drawable/bookmarks" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/city_weather_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_marginBottom="50dp">
+
+        <TextView
+            android:id="@+id/unit_system"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="C"
+            android:textColor="@color/white"
+            android:textSize="60sp" />
+
+        <TextView
+            android:id="@+id/degrees"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/unit_system"
+            android:text="°"
+            android:textColor="@color/white"
+            android:textSize="60sp" />
+
+        <TextView
+            android:id="@+id/temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_toLeftOf="@id/degrees"
+            android:text="36"
+            android:textColor="@color/white"
+            android:textSize="80sp" />
+
+        <ImageView
+            android:id="@+id/weather_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/temperature"
+            android:layout_alignTop="@id/temperature"
+            android:layout_toLeftOf="@id/temperature"
+            app:srcCompat="@drawable/sun" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/city_forecast_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:text="@string/title_forecast"/>
+
+        <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:stretchColumns="1, 2, 3, 4, 5">
+
+            <TableRow>
+
+                <View
+                    android:layout_width="30dp"
+                    android:layout_height="20dp" />
+
+                <TextView
+                    android:id="@+id/day1"
+                    style="@style/forecast_table_text_view_header" />
+
+                <TextView
+                    android:id="@+id/day2"
+                    style="@style/forecast_table_text_view_header" />
+
+                <TextView
+                    android:id="@+id/day3"
+                    style="@style/forecast_table_text_view_header" />
+
+                <TextView
+                    android:id="@+id/day4"
+                    style="@style/forecast_table_text_view_header" />
+
+                <TextView
+                    android:id="@+id/day5"
+                    style="@style/forecast_table_text_view_header" />
+            </TableRow>
+
+            <TableRow>
+
+                <ImageView
+                    android:layout_width="5dp"
+                    android:layout_height="30dp"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    app:srcCompat="@drawable/temperature" />
+
+                <TextView
+                    android:id="@+id/temperature_day1"
+                    style="@style/forecast_table_text_view" />
+
+                <TextView
+                    android:id="@+id/temperature_day2"
+                    style="@style/forecast_table_text_view" />
+
+                <TextView
+                    android:id="@+id/temperature_day3"
+                    style="@style/forecast_table_text_view" />
+
+                <TextView
+                    android:id="@+id/temperature_day4"
+                    style="@style/forecast_table_text_view" />
+
+                <TextView
+                    android:id="@+id/temperature_day5"
+                    style="@style/forecast_table_text_view" />
+            </TableRow>
+
+            <TableRow>
+
+                <ImageView
+                    android:layout_width="5dp"
+                    android:layout_height="30dp"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    app:srcCompat="@drawable/drop" />
+
+                <TextView
+                    android:id="@+id/humidity_day1"
+                    style="@style/forecast_table_text_view" />
+
+                <TextView
+                    android:id="@+id/humidity_day2"
+                    style="@style/forecast_table_text_view" />
+
+                <TextView
+                    android:id="@+id/humidity_day3"
+                    style="@style/forecast_table_text_view" />
+
+                <TextView
+                    android:id="@+id/humidity_day4"
+                    style="@style/forecast_table_text_view" />
+
+                <TextView
+                    android:id="@+id/humidity_day5"
+                    style="@style/forecast_table_text_view" />
+            </TableRow>
+
+            <TableRow>
+
+                <ImageView
+                    android:layout_width="5dp"
+                    android:layout_height="30dp"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    app:srcCompat="@drawable/umbrella" />
+
+                <TextView
+                    android:id="@+id/rain_day1"
+                    style="@style/forecast_table_text_view" />
+
+                <TextView
+                    android:id="@+id/rain_day2"
+                    style="@style/forecast_table_text_view" />
+
+                <TextView
+                    android:id="@+id/rain_day3"
+                    style="@style/forecast_table_text_view" />
+
+                <TextView
+                    android:id="@+id/rain_day4"
+                    style="@style/forecast_table_text_view" />
+
+                <TextView
+                    android:id="@+id/rain_day5"
+                    style="@style/forecast_table_text_view" />
+            </TableRow>
+
+            <TableRow>
+
+                <ImageView
+                    android:layout_width="5dp"
+                    android:layout_height="30dp"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    app:srcCompat="@drawable/wind" />
+
+                <TextView
+                    android:id="@+id/wind_day1"
+                    style="@style/forecast_table_text_view" />
+
+                <TextView
+                    android:id="@+id/wind_day2"
+                    style="@style/forecast_table_text_view" />
+
+                <TextView
+                    android:id="@+id/wind_day3"
+                    style="@style/forecast_table_text_view" />
+
+                <TextView
+                    android:id="@+id/wind_day4"
+                    style="@style/forecast_table_text_view" />
+
+                <TextView
+                    android:id="@+id/wind_day5"
+                    style="@style/forecast_table_text_view" />
+            </TableRow>
+        </TableLayout>
+    </LinearLayout>
+
+</LinearLayout>

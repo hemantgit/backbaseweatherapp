@@ -26,16 +26,27 @@ import bartburg.nl.backbaseweather.provision.remote.controller.weather.WeatherAp
 import bartburg.nl.backbaseweather.provision.remote.controller.weather.WeatherResponse;
 import bartburg.nl.backbaseweather.view.bookmarks.BookmarksListFragment;
 import bartburg.nl.backbaseweather.view.bookmarks.BookmarksTabHostFragment;
+import bartburg.nl.backbaseweather.view.location.LocationForecastFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, BookmarksListFragment.OnListFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, BookmarksListFragment.OnListFragmentInteractionListener, LocationForecastFragment.OnFragmentInteractionListener {
 
     public static final int PERMISSION_ACCESS_ACCESS_FINE_LOCATION = 1;
     private LocationManager locationManager;
+    private City currentCity;
 
     @Override
-    public void onListFragmentInteraction(City item) {
+    public void onListFragmentInteraction(City city) {
+        currentCity = city;
+    }
 
+    @Override
+    public void onFragmentInteraction(City city) {
+        if(city.isBookmarked()){
+            new CityDbHandler(this).deleteCity(city);
+        } else {
+            new CityDbHandler(this).addCity(city);
+        }
     }
 
     public enum FragmentName {
@@ -170,8 +181,7 @@ public class MainActivity extends AppCompatActivity
                 fragmentTransaction.replace(R.id.main_fragment_container, BookmarksTabHostFragment.newInstance(0));
                 break;
             case LOCATION:
-                //TODO open location fragment
-                fragmentTransaction.replace(R.id.main_fragment_container, BookmarksListFragment.newInstance(1));
+                fragmentTransaction.replace(R.id.main_fragment_container, LocationForecastFragment.newInstance(null));
                 break;
             case HELP:
                 //TODO open help fragment

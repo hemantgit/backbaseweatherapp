@@ -56,12 +56,17 @@ public class CityDbHandler extends SQLiteOpenHelper {
      * @return true if city is created and didn't already exist.
      */
     public boolean addCity(City city){
-        if(doesCityExist(city.getId())){
+        if(city == null ||
+            city.getCoordinates() == null||
+            doesCityExist(city.getId())){
+            // TODO call update
             return false;
         }
         ContentValues values = new ContentValues();
         values.put(COLUMN_ID, city.getId());
         values.put(COLUMN_CITY_NAME, city.getName());
+        values.put(COLUMN_LATITUDE, city.getCoordinates().getLat());
+        values.put(COLUMN_LONGITUDE, city.getCoordinates().getLon());
         SQLiteDatabase db = getWritableDatabase();
         db.insert(CITY_TABLE_NAME, null, values);
         db.close();

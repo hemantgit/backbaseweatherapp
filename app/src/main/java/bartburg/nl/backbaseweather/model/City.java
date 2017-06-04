@@ -22,6 +22,7 @@ public class City implements Parcelable
     @SerializedName("country")
     @Expose
     private String country;
+    private boolean bookmarked = true;
     public final static Parcelable.Creator<City> CREATOR = new Creator<City>() {
 
 
@@ -94,4 +95,11 @@ public class City implements Parcelable
         return  0;
     }
 
+    public boolean isBookmarked() {
+        return bookmarked;
+    }
+
+    public void setBookmarked(boolean bookmarked) {
+        this.bookmarked = bookmarked;
+    }
 }

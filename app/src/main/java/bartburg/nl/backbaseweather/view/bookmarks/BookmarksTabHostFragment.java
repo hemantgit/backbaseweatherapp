@@ -31,7 +31,7 @@ public class BookmarksTabHostFragment extends Fragment {
     public static BookmarksTabHostFragment newInstance(int openPage) {
         BookmarksTabHostFragment fragment = new BookmarksTabHostFragment();
         Bundle args = new Bundle();
-        args.putInt(OPEN_PAGE, openPage);
+        args.putString(OPEN_PAGE, LIST_TAB_TAG);
         fragment.setArguments(args);
         return fragment;
     }

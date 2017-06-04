@@ -19,7 +19,7 @@ import bartburg.nl.backbaseweather.model.Wind;
 public class WeatherResponse implements Parcelable
 {
 
-    @SerializedName("coordinates")
+    @SerializedName("coord")
     @Expose
     private Coordinates coordinates;
     @SerializedName("weather")
