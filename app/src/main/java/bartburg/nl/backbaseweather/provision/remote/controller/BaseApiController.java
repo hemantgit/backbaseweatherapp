@@ -32,7 +32,7 @@ public abstract class BaseApiController {
      * @return The result string or *null* when failed.
      */
     @Nullable
-    public String get(HashMap<String, String> parameters, OnErrorListener onErrorListener) {
+    public String get(HashMap<String, String> parameters, @Nullable OnErrorListener onErrorListener) {
         try {
             parameters.put("appid", AppConstants.OPEN_WEATHER_MAP_KEY);
             URL url = new URL(OPEN_WEATHER_PROTOCOL + OPEN_WEATHER_MAP_BASE_URL + getRelativePath() + QueryStringHelper.mapToQueryString(parameters));
@@ -41,7 +41,7 @@ public abstract class BaseApiController {
             urlConnection.connect();
             int responseCode = urlConnection.getResponseCode();
             String responseMessage = urlConnection.getResponseMessage();
-            if (responseCode != 200) {
+            if (responseCode != 200 && onErrorListener != null) {
                 onErrorListener.onError(responseCode, responseMessage);
             } else {
                 return readInputStream(urlConnection);

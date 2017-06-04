@@ -15,7 +15,7 @@ import bartburg.nl.backbaseweather.provision.remote.annotation.ApiController;
  */
 
 @ApiController(
-        relativePath = "forecast"
+        relativePath = "weather"
 )
 public class WeatherApiController extends BaseApiController {
 
@@ -43,7 +43,7 @@ public class WeatherApiController extends BaseApiController {
             public void run() {
                 HashMap<String, String> parameters = new HashMap<>();
                 parameters.put("lat", String.valueOf(coordinates.getLat()));
-                parameters.put("long", String.valueOf(coordinates.getLon()));
+                parameters.put("lon", String.valueOf(coordinates.getLon()));
                 String resultString = get(parameters, onErrorListener);
                 if (resultString != null) {
                     WeatherResponse weatherResponse = new Gson().fromJson(resultString, WeatherResponse.class);
@@ -54,7 +54,7 @@ public class WeatherApiController extends BaseApiController {
         });
     }
 
-    static interface OnWeatherResponseListener {
+    public interface OnWeatherResponseListener {
         void onSuccess(WeatherResponse weatherResponse);
     }
 }

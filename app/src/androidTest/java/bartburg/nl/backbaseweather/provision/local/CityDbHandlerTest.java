@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 import bartburg.nl.backbaseweather.model.City;
 import bartburg.nl.backbaseweather.model.Coordinates;
-import bartburg.nl.backbaseweather.provision.local.controller.city.helper.CitiesListHelper;
+import bartburg.nl.backbaseweather.provision.local.controller.city.helper.CitiesListConverter;
 import bartburg.nl.backbaseweather.provision.local.controller.city.CityDbHandler;
 
 /**
@@ -97,7 +97,7 @@ public class CityDbHandlerTest {
      */
     private void checkReadCities(SparseArray<City> expectedCities){
         ArrayList<City> allCitiesFromDatabase = cityDbHandler.getAllCities();
-        SparseArray<City> allCitiesFromDatabaseMap = CitiesListHelper.convertToSparseArray(allCitiesFromDatabase);
+        SparseArray<City> allCitiesFromDatabaseMap = CitiesListConverter.convertToSparseArray(allCitiesFromDatabase);
         Assert.assertEquals(expectedCities.size(), allCitiesFromDatabase.size());
         for(int i = 0; i < expectedCities.size(); i++) {
             int key = expectedCities.keyAt(i);

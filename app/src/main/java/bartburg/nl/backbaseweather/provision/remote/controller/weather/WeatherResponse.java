@@ -8,6 +8,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import bartburg.nl.backbaseweather.AppConstants;
 import bartburg.nl.backbaseweather.model.Clouds;
 import bartburg.nl.backbaseweather.model.Coordinates;
 import bartburg.nl.backbaseweather.model.Main;
@@ -54,6 +55,8 @@ public class WeatherResponse implements Parcelable
     @SerializedName("responseCode")
     @Expose
     private Integer responseCode;
+    private long timeCreated = System.currentTimeMillis();
+
     public final static Parcelable.Creator<WeatherResponse> CREATOR = new Creator<WeatherResponse>() {
         @SuppressWarnings({
                 "unchecked"
@@ -198,5 +201,9 @@ public class WeatherResponse implements Parcelable
 
     public int getCityId() {
         return id;
+    }
+
+    public boolean isExpired(){
+        return System.currentTimeMillis() - timeCreated - AppConstants.FORECAST_EXPIRED_AFTER > 0;
     }
 }

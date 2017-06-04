@@ -9,6 +9,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import bartburg.nl.backbaseweather.AppConstants;
 import bartburg.nl.backbaseweather.model.City;
 import bartburg.nl.backbaseweather.model.Forecast;
 
@@ -30,6 +31,8 @@ public class ForecastResponse implements Parcelable
     @SerializedName("city")
     @Expose
     private City city;
+    private long timeCreated = System.currentTimeMillis();
+
     public final static Parcelable.Creator<ForecastResponse> CREATOR = new Creator<ForecastResponse>() {
 
 
@@ -109,6 +112,10 @@ public class ForecastResponse implements Parcelable
 
     public int describeContents() {
         return  0;
+    }
+
+    public boolean isExpired(){
+        return System.currentTimeMillis() - timeCreated - AppConstants.FORECAST_EXPIRED_AFTER > 0;
     }
 
 }
