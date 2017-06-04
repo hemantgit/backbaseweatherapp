@@ -1,6 +1,5 @@
 package bartburg.nl.backbaseweather.provision.remote.controller.forecast;
 
-import android.content.Context;
 import android.os.AsyncTask;
 
 import com.google.gson.Gson;
@@ -8,15 +7,15 @@ import com.google.gson.Gson;
 import java.util.HashMap;
 
 import bartburg.nl.backbaseweather.model.Coordinates;
-import bartburg.nl.backbaseweather.provision.remote.controller.BaseApiController;
 import bartburg.nl.backbaseweather.provision.remote.annotation.ApiController;
+import bartburg.nl.backbaseweather.provision.remote.controller.BaseApiController;
 
 /**
  * Created by Bart on 6/3/2017.
  * This class is used for getting the forecast for the coming 5 days, per 3 hours.
  */
 @ApiController(
-        relativePath = "forecast"
+        relativePath = "forecast/daily"
 )
 public class ForecastApiController extends BaseApiController {
 

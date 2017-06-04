@@ -60,23 +60,28 @@
 
             <TextView
                 android:id="@+id/temperature_day1"
-                style="@style/forecast_table_text_view" />
+                style="@style/forecast_table_text_view"
+                android:lines="2" />
 
             <TextView
                 android:id="@+id/temperature_day2"
-                style="@style/forecast_table_text_view" />
+                style="@style/forecast_table_text_view"
+                android:lines="2" />
 
             <TextView
                 android:id="@+id/temperature_day3"
-                style="@style/forecast_table_text_view" />
+                style="@style/forecast_table_text_view"
+                android:lines="2" />
 
             <TextView
                 android:id="@+id/temperature_day4"
-                style="@style/forecast_table_text_view" />
+                style="@style/forecast_table_text_view"
+                android:lines="2" />
 
             <TextView
                 android:id="@+id/temperature_day5"
-                style="@style/forecast_table_text_view" />
+                style="@style/forecast_table_text_view"
+                android:lines="2" />
         </TableRow>
 
         <TableRow>

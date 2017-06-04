@@ -1,22 +1,22 @@
 
 package bartburg.nl.backbaseweather.provision.remote.controller.forecast;
 
-import java.util.ArrayList;
-import java.util.List;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import bartburg.nl.backbaseweather.AppConstants;
 import bartburg.nl.backbaseweather.model.City;
 import bartburg.nl.backbaseweather.model.Forecast;
 
-public class ForecastResponse implements Parcelable
-{
+public class ForecastResponse implements Parcelable {
 
-    @SerializedName("responseCode")
+    @SerializedName("cod")
     @Expose
     private String responseCode;
     @SerializedName("message")
@@ -25,9 +25,9 @@ public class ForecastResponse implements Parcelable
     @SerializedName("cnt")
     @Expose
     private Integer cnt;
-    @SerializedName("forecast")
+    @SerializedName("list")
     @Expose
-    private List<Forecast> forecast = new ArrayList<Forecast>();
+    private List<Forecast> forecasts = new ArrayList<Forecast>();
     @SerializedName("city")
     @Expose
     private City city;
@@ -37,14 +37,14 @@ public class ForecastResponse implements Parcelable
 
 
         @SuppressWarnings({
-            "unchecked"
+                "unchecked"
         })
         public ForecastResponse createFromParcel(Parcel in) {
             ForecastResponse instance = new ForecastResponse();
             instance.responseCode = ((String) in.readValue((String.class.getClassLoader())));
             instance.message = ((Double) in.readValue((Double.class.getClassLoader())));
             instance.cnt = ((Integer) in.readValue((Integer.class.getClassLoader())));
-            in.readList(instance.forecast, (bartburg.nl.backbaseweather.model.Forecast.class.getClassLoader()));
+            in.readList(instance.forecasts, (bartburg.nl.backbaseweather.model.Forecast.class.getClassLoader()));
             instance.city = ((City) in.readValue((City.class.getClassLoader())));
             return instance;
         }
@@ -53,8 +53,7 @@ public class ForecastResponse implements Parcelable
             return (new ForecastResponse[size]);
         }
 
-    }
-    ;
+    };
 
     public String getResponseCode() {
         return responseCode;
@@ -80,12 +79,12 @@ public class ForecastResponse implements Parcelable
         this.cnt = cnt;
     }
 
-    public List<Forecast> getForecast() {
-        return forecast;
+    public List<Forecast> getForecasts() {
+        return forecasts;
     }
 
-    public void setForecast(List<Forecast> forecast) {
-        this.forecast = forecast;
+    public void setForecasts(List<Forecast> forecasts) {
+        this.forecasts = forecasts;
     }
 
     public City getCity() {
@@ -96,8 +95,8 @@ public class ForecastResponse implements Parcelable
         this.city = city;
     }
 
-    public int getCityId(){
-        if(city == null)
+    public int getCityId() {
+        if (city == null)
             return -1;
         return city.getId();
     }
@@ -106,15 +105,15 @@ public class ForecastResponse implements Parcelable
         dest.writeValue(responseCode);
         dest.writeValue(message);
         dest.writeValue(cnt);
-        dest.writeList(forecast);
+        dest.writeList(forecasts);
         dest.writeValue(city);
     }
 
     public int describeContents() {
-        return  0;
+        return 0;
     }
 
-    public boolean isExpired(){
+    public boolean isExpired() {
         return System.currentTimeMillis() - timeCreated - AppConstants.FORECAST_EXPIRED_AFTER > 0;
     }
 

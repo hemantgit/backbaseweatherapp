@@ -15,13 +15,13 @@ public class WeatherDescriptionHelper {
 
     public static DecimalFormat decimalFormat = new DecimalFormat("#.0");
 
-    public static String getShortDescription(WeatherResponse weatherResponse){
+    public static String getShortDescription(WeatherResponse weatherResponse) {
         return getTemperature(weatherResponse) + getWeatherMessage(weatherResponse);
     }
 
     private static String getWeatherMessage(WeatherResponse weatherResponse) {
         String weatherMessage = " ";
-        if(weatherResponse.getWeather() != null && !weatherResponse.getWeather().isEmpty()){
+        if (weatherResponse.getWeather() != null && !weatherResponse.getWeather().isEmpty()) {
             String description = weatherResponse.getWeather().get(0).getDescription();
             weatherMessage += description.substring(0, 1).toUpperCase() + description.substring(1);
             return weatherMessage;
@@ -30,15 +30,13 @@ public class WeatherDescriptionHelper {
     }
 
     private static String getTemperature(WeatherResponse weatherResponse) {
-        double temperatureInCelcius = TemperatureUnitConverter.kelvinToCelcius(weatherResponse.getMain().getTemp());
-        return decimalFormat.format(temperatureInCelcius) + (char) 0x00B0 + "C";
+        return TemperatureUnitHelper.getTemperatureString(weatherResponse.getMain().getTemp());
     }
 
-    public static int getWeatherImage(WeatherResponse weatherResponse)
-    {
+    public static int getWeatherImage(WeatherResponse weatherResponse) {
         List<Weather> weather = weatherResponse.getWeather();
-        if(weather != null && !weather.isEmpty()){
-            switch(WeatherTypeHelper.getWeatherTypeFromId(weather.get(0).getId())){
+        if (weather != null && !weather.isEmpty()) {
+            switch (WeatherTypeHelper.getWeatherTypeFromId(weather.get(0).getId())) {
                 case RAIN:
                 case DRIZZLE:
                 case SNOW:
@@ -56,9 +54,9 @@ public class WeatherDescriptionHelper {
         return -1;
     }
 
-    public static String getFullCityName(WeatherResponse weatherResponse){
-        if(weatherResponse.getCity() != null){
-            if(weatherResponse.getCity().getCountry() != null) {
+    public static String getFullCityName(WeatherResponse weatherResponse) {
+        if (weatherResponse.getCity() != null) {
+            if (weatherResponse.getCity().getCountry() != null) {
                 return weatherResponse.getCity().getName() + " - " + weatherResponse.getSys().getCountry();
             } else {
                 return weatherResponse.getCity().getName();

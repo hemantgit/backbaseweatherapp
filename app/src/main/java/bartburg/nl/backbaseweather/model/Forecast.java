@@ -1,7 +1,6 @@
 
 package bartburg.nl.backbaseweather.model;
 
-import java.util.ArrayList;
 import java.util.List;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -15,27 +14,27 @@ public class Forecast implements Parcelable
     @SerializedName("dt")
     @Expose
     private Integer dt;
-    @SerializedName("main")
+    @SerializedName("temp")
     @Expose
-    private Main main;
+    private Temp temp;
+    @SerializedName("pressure")
+    @Expose
+    private Double pressure;
+    @SerializedName("humidity")
+    @Expose
+    private Integer humidity;
     @SerializedName("weather")
     @Expose
-    private List<Weather> weather = new ArrayList<Weather>();
+    private List<Weather> weather = null;
+    @SerializedName("speed")
+    @Expose
+    private Double speed;
+    @SerializedName("deg")
+    @Expose
+    private Integer deg;
     @SerializedName("clouds")
     @Expose
-    private Clouds clouds;
-    @SerializedName("wind")
-    @Expose
-    private Wind wind;
-    @SerializedName("rain")
-    @Expose
-    private Rain rain;
-    @SerializedName("sys")
-    @Expose
-    private Sys sys;
-    @SerializedName("dt_txt")
-    @Expose
-    private String dtTxt;
+    private Integer clouds;
     public final static Parcelable.Creator<Forecast> CREATOR = new Creator<Forecast>() {
 
 
@@ -45,13 +44,13 @@ public class Forecast implements Parcelable
         public Forecast createFromParcel(Parcel in) {
             Forecast instance = new Forecast();
             instance.dt = ((Integer) in.readValue((Integer.class.getClassLoader())));
-            instance.main = ((Main) in.readValue((Main.class.getClassLoader())));
+            instance.temp = ((Temp) in.readValue((Temp.class.getClassLoader())));
+            instance.pressure = ((Double) in.readValue((Double.class.getClassLoader())));
+            instance.humidity = ((Integer) in.readValue((Integer.class.getClassLoader())));
             in.readList(instance.weather, (bartburg.nl.backbaseweather.model.Weather.class.getClassLoader()));
-            instance.clouds = ((Clouds) in.readValue((Clouds.class.getClassLoader())));
-            instance.wind = ((Wind) in.readValue((Wind.class.getClassLoader())));
-            instance.rain = ((Rain) in.readValue((Rain.class.getClassLoader())));
-            instance.sys = ((Sys) in.readValue((Sys.class.getClassLoader())));
-            instance.dtTxt = ((String) in.readValue((String.class.getClassLoader())));
+            instance.speed = ((Double) in.readValue((Double.class.getClassLoader())));
+            instance.deg = ((Integer) in.readValue((Integer.class.getClassLoader())));
+            instance.clouds = ((Integer) in.readValue((Integer.class.getClassLoader())));
             return instance;
         }
 
@@ -70,12 +69,28 @@ public class Forecast implements Parcelable
         this.dt = dt;
     }
 
-    public Main getMain() {
-        return main;
+    public Temp getTemp() {
+        return temp;
     }
 
-    public void setMain(Main main) {
-        this.main = main;
+    public void setTemp(Temp temp) {
+        this.temp = temp;
+    }
+
+    public Double getPressure() {
+        return pressure;
+    }
+
+    public void setPressure(Double pressure) {
+        this.pressure = pressure;
+    }
+
+    public Integer getHumidity() {
+        return humidity;
+    }
+
+    public void setHumidity(Integer humidity) {
+        this.humidity = humidity;
     }
 
     public List<Weather> getWeather() {
@@ -86,55 +101,39 @@ public class Forecast implements Parcelable
         this.weather = weather;
     }
 
-    public Clouds getClouds() {
+    public Double getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(Double speed) {
+        this.speed = speed;
+    }
+
+    public Integer getDeg() {
+        return deg;
+    }
+
+    public void setDeg(Integer deg) {
+        this.deg = deg;
+    }
+
+    public Integer getClouds() {
         return clouds;
     }
 
-    public void setClouds(Clouds clouds) {
+    public void setClouds(Integer clouds) {
         this.clouds = clouds;
-    }
-
-    public Wind getWind() {
-        return wind;
-    }
-
-    public void setWind(Wind wind) {
-        this.wind = wind;
-    }
-
-    public Rain getRain() {
-        return rain;
-    }
-
-    public void setRain(Rain rain) {
-        this.rain = rain;
-    }
-
-    public Sys getSys() {
-        return sys;
-    }
-
-    public void setSys(Sys sys) {
-        this.sys = sys;
-    }
-
-    public String getDtTxt() {
-        return dtTxt;
-    }
-
-    public void setDtTxt(String dtTxt) {
-        this.dtTxt = dtTxt;
     }
 
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeValue(dt);
-        dest.writeValue(main);
+        dest.writeValue(temp);
+        dest.writeValue(pressure);
+        dest.writeValue(humidity);
         dest.writeList(weather);
+        dest.writeValue(speed);
+        dest.writeValue(deg);
         dest.writeValue(clouds);
-        dest.writeValue(wind);
-        dest.writeValue(rain);
-        dest.writeValue(sys);
-        dest.writeValue(dtTxt);
     }
 
     public int describeContents() {
