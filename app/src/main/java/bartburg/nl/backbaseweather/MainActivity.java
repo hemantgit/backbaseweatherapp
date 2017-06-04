@@ -31,6 +31,7 @@ import bartburg.nl.backbaseweather.view.bookmarks.BookmarksListFragment;
 import bartburg.nl.backbaseweather.view.bookmarks.BookmarksTabHostFragment;
 import bartburg.nl.backbaseweather.view.bookmarks.CityAction;
 import bartburg.nl.backbaseweather.view.bookmarks.OnBookmarkInteractionListener;
+import bartburg.nl.backbaseweather.view.help.HelpFragment;
 import bartburg.nl.backbaseweather.view.location.LocationFragment;
 import io.fabric.sdk.android.Fabric;
 
@@ -208,7 +209,7 @@ public class MainActivity extends AppCompatActivity
                 fragmentTransaction.replace(R.id.main_fragment_container, LocationFragment.newInstance(currentCity));
                 break;
             case HELP:
-                fragmentTransaction.replace(R.id.main_fragment_container, BookmarksListFragment.newInstance(1));
+                fragmentTransaction.replace(R.id.main_fragment_container, new HelpFragment());
                 break;
             case SETTINGS:
                 fragmentTransaction.replace(R.id.main_fragment_container, BookmarksListFragment.newInstance(1));

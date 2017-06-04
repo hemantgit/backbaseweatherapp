@@ -1,0 +1,79 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+
+@import "reset";
+@import "grid";
+@import "values";
+@import "mixins";
+
+html, body{
+	height: 100%;
+	overflow: none;
+    background-color: $blue;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+
+    section{
+        @include column(10);
+        @include push(1);
+        background-color: $white;
+        margin-bottom: 20px;
+
+        @media screen and(max-width: 719px){
+            padding: 20px;
+        }
+
+        &:first-child{
+            margin-top: 30px;
+        }
+        &:last-child{
+            margin-bottom: 30px;
+        }
+
+        .column{
+            @include column(10, 10);
+            padding: 20px;
+        }
+
+        @media screen and(min-width: 720px){
+            .column{
+                @include column(5, 10);
+                padding: 40px;
+                &.single{
+                    @include column(10, 10);
+                    padding: 40px;
+                }
+            }
+        }
+
+        img{
+            width: 100%;
+        }
+        
+        h1, h2{
+            margin-bottom: 20px;
+        }
+
+        h3, p{
+            margin-bottom: 10px;
+        }
+
+        h1{
+            font-size: 28px;
+        }
+        h2{
+            font-size: 24px;
+        }
+        h3{
+            font-size: 20px;
+        }
+        p{
+            font-size: 16px;
+        }
+    }
+}
+

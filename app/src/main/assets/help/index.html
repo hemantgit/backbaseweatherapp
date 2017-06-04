@@ -1,0 +1,65 @@
+<!doctype html>
+
+<html lang="nl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backbase weather app</title>
+    <meta name="description" content="Backbase infopage">
+    <meta name="author" content="Bart Burg">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="stylesheets/screen.css" media="screen, projection" rel="stylesheet"
+          type="text/css"/>
+</head>
+
+<body>
+
+<section class="intro">
+    <div class="column single">
+        <h1>Welcome</h1>
+        <p>This app is developed for an assesment given by Backbase. This screen serves as a quick
+            help-file. The CSS of this file is generated from scss files, and based on a gridsystem
+            that I created to use on a regular basis.</p>
+    </div>
+</section>
+
+<section class="bookmark">
+    <div class="column">
+        <h2>The bookmark screens</h2>
+        <p>This screen has 2 views: the listview, which is a list of all bookmarked locations and
+            the map, which shows a map with all the bookmarked locations.</p>
+        <h3>Bookmark list</h3>
+        <p>You can click on a location to see the weatherforecast. You can also click at the right
+            on the cross to delete the bookmark.</p>
+        <h3>Map</h3>
+        <p>The map is a simple map where you can see markers for each bookmark. Press and hold on a
+            spot on the map to add a new marker. If you want to see the weather forecast of a
+            bookmarked location, simply tap on a marker.</p>
+    </div>
+    <div class="column">
+        <img src="images/bookmarks-list.png"/>
+    </div>
+</section>
+
+<section class="location">
+    <div class="column">
+        <h2>The location screen / forecast</h2>
+        <p>This screen has 2 ways of working. Either you navigate here directly from menu. In that
+            case the app will try to get the users last known location and show the weather from
+            that location. The user can also get to here by clicking any of the bookmarks in the
+            bookmark screens.</p>
+        <h3>Bookmark icon</h3>
+        <p>The bookmark icon in the right top can be clicked to add or delete any location to the
+            bookmarks. This also includes the last known location.</p>
+        <h3>Why is the rain chance always 0?</h3>
+        <p>Openweathermap has a fantastic API but it doesn't seem to have predictions about the
+            chance of rain. This might be retrieved from other open API's, but for now I left it on
+            0.</p>
+    </div>
+    <div class="column">
+        <img src="images/forecast.png"/>
+    </div>
+</section>
+
+</body>
+</html>
