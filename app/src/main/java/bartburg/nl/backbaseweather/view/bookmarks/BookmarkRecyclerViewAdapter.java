@@ -20,9 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link City} and makes a call to the
- * specified {@link OnBookmarkInterationListener}.
- * TODO: Replace the implementation with code for your data type.
+ *
  */
 public class BookmarkRecyclerViewAdapter extends RecyclerView.Adapter<BookmarkRecyclerViewAdapter.ViewHolder> {
 
