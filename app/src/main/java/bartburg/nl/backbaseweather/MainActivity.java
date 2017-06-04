@@ -38,10 +38,14 @@ import io.fabric.sdk.android.Fabric;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnBookmarkInteractionListener, LocationFragment.OnCityBookmarkChangedListener {
 
+
+    private static final String TAG_CITY_PARCELLABLE = "cityParcelable";
+    private static final String TAG_OPEN_SCREEN = "openScreen";
     public static final int PERMISSION_ACCESS_ACCESS_FINE_LOCATION = 1;
     private LocationManager locationManager;
     private City currentCity;
     private NavigationView navigationView;
+    private FragmentName openFragment;
 
     @Override
     public void onCityBookmarkChanged(City city, boolean bookmark) {
@@ -201,6 +205,7 @@ public class MainActivity extends AppCompatActivity
     private void openFragment(FragmentName fragmentName) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        openFragment = fragmentName;
         switch (fragmentName) {
             case BOOKMARKS:
                 fragmentTransaction.replace(R.id.main_fragment_container, BookmarksTabHostFragment.newInstance(0));
@@ -218,4 +223,20 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.commitAllowingStateLoss();
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(TAG_CITY_PARCELLABLE, currentCity);
+        outState.putSerializable(TAG_OPEN_SCREEN, openFragment);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState != null) {
+            currentCity = savedInstanceState.getParcelable(TAG_CITY_PARCELLABLE);
+            openFragment = (FragmentName) savedInstanceState.getSerializable(TAG_OPEN_SCREEN);
+            openFragment(openFragment);
+        }
+    }
 }

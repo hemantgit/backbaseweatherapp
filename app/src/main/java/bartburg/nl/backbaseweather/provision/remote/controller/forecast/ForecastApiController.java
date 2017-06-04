@@ -19,6 +19,7 @@ import bartburg.nl.backbaseweather.provision.remote.controller.BaseApiController
 )
 public class ForecastApiController extends BaseApiController {
 
+
     //TODO DRY methods
     public void getForecast(final String cityName, final OnForecastResponseListener onForecastResponseListener, final OnErrorListener onErrorListener) {
         AsyncTask.execute(new Runnable() {

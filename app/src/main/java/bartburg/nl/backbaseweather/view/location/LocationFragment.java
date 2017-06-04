@@ -3,15 +3,16 @@ package bartburg.nl.backbaseweather.view.location;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -78,19 +79,31 @@ public class LocationFragment extends Fragment implements OnCurrentCityLoadedLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View parentView = inflater.inflate(R.layout.fragment_location, container, false);
-        getViews(parentView);
+        FrameLayout frameLayout = new FrameLayout(getActivity());
+        populateViewForOrientation(inflater, frameLayout);
+        return frameLayout;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
+        populateViewForOrientation(inflater, (ViewGroup) getView());
+    }
+
+    private void populateViewForOrientation(LayoutInflater inflater, ViewGroup viewGroup) {
+        viewGroup.removeAllViewsInLayout();
+        View subview = inflater.inflate(R.layout.fragment_location, viewGroup);
+        getViews(subview);
         setViewValues();
         getWeatherAndForecast();
         if (city != null) {
             cityBookmarked = new CityDbHandler(getContext()).cityInDb(city.getId());
             currentBookmarkIconAlpha = cityBookmarked ? 1f : 0.15f;
         }
-        setBookmarkedIcon(parentView, false);
+        setBookmarkedIcon(subview, false);
         setBookmarkIconClickListener();
-        return parentView;
     }
-
 
     private void getViews(View parent) {
         bookmarkIcon = parent.findViewById(R.id.bookmarked_icon);
@@ -188,9 +201,9 @@ public class LocationFragment extends Fragment implements OnCurrentCityLoadedLis
                     return;
                 }
                 new AlertDialog.Builder(LocationFragment.this.mainActivityParent)
-                        .setTitle("Oops!")
-                        .setMessage("Something went wrong, couldn't retrieve data from server.")
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        .setTitle(R.string.title_server_error)
+                        .setMessage(R.string.message_server_error)
+                        .setPositiveButton(R.string.default_confirm, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
@@ -202,7 +215,6 @@ public class LocationFragment extends Fragment implements OnCurrentCityLoadedLis
 
     private void updateScreen() {
         if (forecastResponse != null) {
-            Log.d("LFF", "Ready to update screen");
             FragmentManager childFragmentManager = getChildFragmentManager();
             FragmentTransaction fragmentTransaction = childFragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.location_forecast_container, LocationForecastFragment.newInstance(forecastResponse));
