@@ -16,14 +16,14 @@ import bartburg.nl.backbaseweather.provision.local.controller.city.CityDbHandler
 /**
  * A fragment representing a list of Items.
  * <p/>
- * Activities containing this fragment MUST implement the {@link OnBookmarkInterationListener}
+ * Activities containing this fragment MUST implement the {@link OnBookmarkInteractionListener}
  * interface.
  */
 public class BookmarksListFragment extends Fragment {
 
     private static final String ARG_COLUMN_COUNT = "column-count";
     private int mColumnCount = 1;
-    private OnBookmarkInterationListener mListener;
+    private OnBookmarkInteractionListener mListener;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -71,11 +71,11 @@ public class BookmarksListFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnBookmarkInterationListener) {
-            mListener = (OnBookmarkInterationListener) context;
+        if (context instanceof OnBookmarkInteractionListener) {
+            mListener = (OnBookmarkInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnBookmarkInterationListener");
+                    + " must implement OnBookmarkInteractionListener");
         }
     }
 

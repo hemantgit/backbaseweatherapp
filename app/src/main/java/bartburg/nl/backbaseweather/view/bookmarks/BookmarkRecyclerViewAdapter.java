@@ -2,7 +2,6 @@ package bartburg.nl.backbaseweather.view.bookmarks;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,12 +23,12 @@ import java.util.List;
  */
 public class BookmarkRecyclerViewAdapter extends RecyclerView.Adapter<BookmarkRecyclerViewAdapter.ViewHolder> {
 
-    private final SparseArray<WeatherResponse> weatherResponses = new SparseArray<>();
+    private static final SparseArray<WeatherResponse> weatherResponses = new SparseArray<>(); // should be cached somewhere else
     private final List<City> mValues;
-    private final OnBookmarkInterationListener mListener;
+    private final OnBookmarkInteractionListener mListener;
     private Context context;
 
-    public BookmarkRecyclerViewAdapter(ArrayList<City> items, OnBookmarkInterationListener listener) {
+    public BookmarkRecyclerViewAdapter(ArrayList<City> items, OnBookmarkInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }

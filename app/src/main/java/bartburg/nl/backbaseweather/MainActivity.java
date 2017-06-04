@@ -28,15 +28,18 @@ import bartburg.nl.backbaseweather.provision.remote.controller.weather.WeatherRe
 import bartburg.nl.backbaseweather.view.bookmarks.BookmarksListFragment;
 import bartburg.nl.backbaseweather.view.bookmarks.BookmarksTabHostFragment;
 import bartburg.nl.backbaseweather.view.bookmarks.CityAction;
-import bartburg.nl.backbaseweather.view.bookmarks.OnBookmarkInterationListener;
-import bartburg.nl.backbaseweather.view.location.LocationForecastFragment;
+import bartburg.nl.backbaseweather.view.bookmarks.OnBookmarkInteractionListener;
+import bartburg.nl.backbaseweather.view.location.LocationFragment;
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, OnBookmarkInterationListener, LocationForecastFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, OnBookmarkInteractionListener, LocationFragment.OnFragmentInteractionListener {
 
     public static final int PERMISSION_ACCESS_ACCESS_FINE_LOCATION = 1;
     private LocationManager locationManager;
     private City currentCity;
+    private NavigationView navigationView;
 
     @Override
     public void onFragmentInteraction(City city) {
@@ -57,9 +60,11 @@ public class MainActivity extends AppCompatActivity
                 new CityDbHandler(this).deleteCity(cityInteracted);
                 break;
             case LOAD:
+                navigationView.getMenu().getItem(1).setChecked(true); //TODO should be more dynamic
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.main_fragment_container, LocationForecastFragment.newInstance(cityInteracted));
+                fragmentTransaction.replace(R.id.main_fragment_container, LocationFragment.newInstance(cityInteracted));
+                fragmentTransaction.commitAllowingStateLoss();
                 break;
         }
     }
@@ -74,6 +79,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -129,8 +135,9 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.getMenu().getItem(0).setChecked(true);
     }
 
     @Override
@@ -197,7 +204,7 @@ public class MainActivity extends AppCompatActivity
                 fragmentTransaction.replace(R.id.main_fragment_container, BookmarksTabHostFragment.newInstance(0));
                 break;
             case LOCATION:
-                fragmentTransaction.replace(R.id.main_fragment_container, LocationForecastFragment.newInstance(null));
+                fragmentTransaction.replace(R.id.main_fragment_container, LocationFragment.newInstance(null));
                 break;
             case HELP:
                 fragmentTransaction.replace(R.id.main_fragment_container, BookmarksListFragment.newInstance(1));

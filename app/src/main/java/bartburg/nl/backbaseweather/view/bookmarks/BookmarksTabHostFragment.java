@@ -22,7 +22,8 @@ public class BookmarksTabHostFragment extends Fragment {
     private String openTabTag = LIST_TAB_TAG;
     private FragmentTabHost mTabHost;
 
-    public BookmarksTabHostFragment() {}
+    public BookmarksTabHostFragment() {
+    }
 
     /**
      * @param openPage page to open.
@@ -45,7 +46,7 @@ public class BookmarksTabHostFragment extends Fragment {
     }
 
     private void initTabHost(View parent) {
-        mTabHost = (FragmentTabHost)parent.findViewById(R.id.tab_host_parent);
+        mTabHost = (FragmentTabHost) parent.findViewById(R.id.tab_host_parent);
         mTabHost.setup(getActivity(), getChildFragmentManager(), R.id.realtabcontent);
 
         mTabHost.addTab(mTabHost.newTabSpec(LIST_TAB_TAG).setIndicator("List"),

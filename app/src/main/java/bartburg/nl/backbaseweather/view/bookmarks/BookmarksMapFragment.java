@@ -40,7 +40,7 @@ public class BookmarksMapFragment extends Fragment implements OnMapReadyCallback
     private float zoom = 8f;
     private GoogleMap googleMap;
     private MapView mapView;
-    private OnBookmarkInterationListener mListener;
+    private OnBookmarkInteractionListener mListener;
     HashMap<Marker, City> markerCityMap = new HashMap<>();
 
 
@@ -170,11 +170,11 @@ public class BookmarksMapFragment extends Fragment implements OnMapReadyCallback
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnBookmarkInterationListener) {
-            mListener = (OnBookmarkInterationListener) context;
+        if (context instanceof OnBookmarkInteractionListener) {
+            mListener = (OnBookmarkInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnBookmarkInterationListener");
+                    + " must implement OnBookmarkInteractionListener");
         }
     }
 
