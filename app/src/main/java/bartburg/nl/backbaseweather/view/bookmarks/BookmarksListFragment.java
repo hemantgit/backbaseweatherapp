@@ -11,20 +11,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import bartburg.nl.backbaseweather.R;
-import bartburg.nl.backbaseweather.model.City;
 import bartburg.nl.backbaseweather.provision.local.controller.city.CityDbHandler;
 
 /**
  * A fragment representing a list of Items.
  * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
+ * Activities containing this fragment MUST implement the {@link OnBookmarkInterationListener}
  * interface.
  */
 public class BookmarksListFragment extends Fragment {
 
     private static final String ARG_COLUMN_COUNT = "column-count";
     private int mColumnCount = 1;
-    private OnListFragmentInteractionListener mListener;
+    private OnBookmarkInterationListener mListener;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -72,11 +71,11 @@ public class BookmarksListFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnListFragmentInteractionListener) {
-            mListener = (OnListFragmentInteractionListener) context;
+        if (context instanceof OnBookmarkInterationListener) {
+            mListener = (OnBookmarkInterationListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
+                    + " must implement OnBookmarkInterationListener");
         }
     }
 
@@ -84,9 +83,5 @@ public class BookmarksListFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    public interface OnListFragmentInteractionListener {
-        void onListFragmentInteraction(City cityClicked, CityAction action);
     }
 }

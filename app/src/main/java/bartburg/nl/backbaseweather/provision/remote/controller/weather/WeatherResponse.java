@@ -211,4 +211,6 @@ public class WeatherResponse implements Parcelable
     public boolean isExpired(){
         return System.currentTimeMillis() - timeCreated - AppConstants.FORECAST_EXPIRED_AFTER > 0;
     }
+
+
 }

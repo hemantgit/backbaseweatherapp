@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,26 +13,27 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import bartburg.nl.backbaseweather.R;
+import bartburg.nl.backbaseweather.helper.WeatherDescriptionHelper;
 import bartburg.nl.backbaseweather.model.City;
 import bartburg.nl.backbaseweather.provision.remote.controller.weather.WeatherApiController;
 import bartburg.nl.backbaseweather.provision.remote.controller.weather.WeatherResponse;
-import bartburg.nl.backbaseweather.view.bookmarks.BookmarksListFragment.OnListFragmentInteractionListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link City} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
+ * specified {@link OnBookmarkInterationListener}.
  * TODO: Replace the implementation with code for your data type.
  */
 public class BookmarkRecyclerViewAdapter extends RecyclerView.Adapter<BookmarkRecyclerViewAdapter.ViewHolder> {
 
+    private final SparseArray<WeatherResponse> weatherResponses = new SparseArray<>();
     private final List<City> mValues;
-    private final OnListFragmentInteractionListener mListener;
+    private final OnBookmarkInterationListener mListener;
     private Context context;
 
-    public BookmarkRecyclerViewAdapter(ArrayList<City> items, OnListFragmentInteractionListener listener) {
+    public BookmarkRecyclerViewAdapter(ArrayList<City> items, OnBookmarkInterationListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -67,19 +69,36 @@ public class BookmarkRecyclerViewAdapter extends RecyclerView.Adapter<BookmarkRe
                 }
             }
         });
-        //TODO caching of weather
+        WeatherResponse weatherResponse = weatherResponses.get(city.getId());
+        if(weatherResponse != null && !weatherResponse.isExpired()){
+            updateWeatherData(weatherResponse, holder);
+        } else {
+            requestWeatherData(holder);
+        }
+    }
+
+    private void requestWeatherData(final ViewHolder holder) {
         new WeatherApiController().getWeather(holder.mCity.getName(), new WeatherApiController.OnWeatherResponseListener() {
             @Override
             public void onSuccess(final WeatherResponse weatherResponse) {
-               holder.mView.post(new Runnable() {
-                   @Override
-                   public void run() {
-                       holder.cityWeatherTextView.setText("weer ontvangen");
-                       holder.cityWeatherIcon.setImageResource(R.drawable.cloudy);
-                   }
-               });
+                weatherResponses.put(weatherResponse.getCityId(), weatherResponse);
+                updateWeatherData(weatherResponse, holder);
             }
         }, null);
+    }
+
+    private void updateWeatherData(final WeatherResponse weatherResponse, final ViewHolder holder) {
+        holder.mView.post(new Runnable() {
+            @Override
+            public void run() {
+                holder.cityNameTextView.setText(WeatherDescriptionHelper.getFullCityName(weatherResponse));
+                holder.cityWeatherTextView.setText(WeatherDescriptionHelper.getShortDescription(weatherResponse));
+                int weatherImage = WeatherDescriptionHelper.getWeatherImage(weatherResponse);
+                if(weatherImage > 0) {
+                    holder.cityWeatherIcon.setImageResource(weatherImage);
+                }
+            }
+        });
     }
 
     @Override

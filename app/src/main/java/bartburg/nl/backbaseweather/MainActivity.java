@@ -28,10 +28,11 @@ import bartburg.nl.backbaseweather.provision.remote.controller.weather.WeatherRe
 import bartburg.nl.backbaseweather.view.bookmarks.BookmarksListFragment;
 import bartburg.nl.backbaseweather.view.bookmarks.BookmarksTabHostFragment;
 import bartburg.nl.backbaseweather.view.bookmarks.CityAction;
+import bartburg.nl.backbaseweather.view.bookmarks.OnBookmarkInterationListener;
 import bartburg.nl.backbaseweather.view.location.LocationForecastFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, BookmarksListFragment.OnListFragmentInteractionListener, LocationForecastFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, OnBookmarkInterationListener, LocationForecastFragment.OnFragmentInteractionListener {
 
     public static final int PERMISSION_ACCESS_ACCESS_FINE_LOCATION = 1;
     private LocationManager locationManager;

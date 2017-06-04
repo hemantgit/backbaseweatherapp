@@ -17,4 +17,6 @@ public class AppConstants {
     public static final String WEATHER_RESPONSE_TAG = "weatherResponse";
 
     public static final long FORECAST_EXPIRED_AFTER = 1000 * 60 * 5;
+
+    public static final int TEMPERATURE_UNIT_SYSTEM = 0;
 }
