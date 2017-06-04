@@ -48,12 +48,18 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onListFragmentInteraction(City cityClicked, CityAction action) {
-        //TODO remove?
+    public void onBookmarkInteraction(City cityInteracted, CityAction action) {
         switch (action){
             case ADD:
+                new CityDbHandler(this).addCity(cityInteracted);
                 break;
             case DELETE:
+                new CityDbHandler(this).deleteCity(cityInteracted);
+                break;
+            case LOAD:
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.main_fragment_container, LocationForecastFragment.newInstance(cityInteracted));
                 break;
         }
     }
@@ -194,11 +200,9 @@ public class MainActivity extends AppCompatActivity
                 fragmentTransaction.replace(R.id.main_fragment_container, LocationForecastFragment.newInstance(null));
                 break;
             case HELP:
-                //TODO open help fragment
                 fragmentTransaction.replace(R.id.main_fragment_container, BookmarksListFragment.newInstance(1));
                 break;
             case SETTINGS:
-                //TODO open settings fragment
                 fragmentTransaction.replace(R.id.main_fragment_container, BookmarksListFragment.newInstance(1));
                 break;
         }

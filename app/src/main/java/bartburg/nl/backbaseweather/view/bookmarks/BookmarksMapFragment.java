@@ -1,7 +1,6 @@
 package bartburg.nl.backbaseweather.view.bookmarks;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -21,7 +20,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import bartburg.nl.backbaseweather.MainActivity;
 import bartburg.nl.backbaseweather.R;
 import bartburg.nl.backbaseweather.model.City;
 import bartburg.nl.backbaseweather.model.Coordinates;
@@ -144,7 +142,7 @@ public class BookmarksMapFragment extends Fragment implements OnMapReadyCallback
                             @Override
                             public void run() {
                                 City city = weatherResponse.getCity();
-                                mListener.onListFragmentInteraction(city, CityAction.ADD);
+                                mListener.onBookmarkInteraction(city, CityAction.ADD);
                                 placeMarker(city);
                             }
                         });
@@ -161,7 +159,7 @@ public class BookmarksMapFragment extends Fragment implements OnMapReadyCallback
             public boolean onMarkerClick(Marker marker) {
                 City city = markerCityMap.get(marker);
                 if (city != null) {
-                    mListener.onListFragmentInteraction(city, CityAction.LOAD);
+                    mListener.onBookmarkInteraction(city, CityAction.LOAD);
                     return true;
                 }
                 return false;

@@ -1,7 +1,6 @@
 package bartburg.nl.backbaseweather.view.bookmarks;
 
 import android.content.Context;
-import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.SparseArray;
@@ -10,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import bartburg.nl.backbaseweather.R;
 import bartburg.nl.backbaseweather.helper.WeatherDescriptionHelper;
@@ -55,8 +53,7 @@ public class BookmarkRecyclerViewAdapter extends RecyclerView.Adapter<BookmarkRe
             @Override
             public void onClick(View v) {
                 if (mListener != null) {
-                    mListener.onListFragmentInteraction(holder.mCity, CityAction.LOAD);
-                    Log.d("Bookmark", "Load bookmark");
+                    mListener.onBookmarkInteraction(holder.mCity, CityAction.LOAD);
                 }
             }
         });
@@ -64,8 +61,11 @@ public class BookmarkRecyclerViewAdapter extends RecyclerView.Adapter<BookmarkRe
             @Override
             public void onClick(View v) {
                 if (mListener != null) {
-                    mListener.onListFragmentInteraction(holder.mCity, CityAction.DELETE);
-                    Log.d("Bookmark", "Delete bookmark");
+                    mListener.onBookmarkInteraction(holder.mCity, CityAction.DELETE);
+                    int indexOfCity = mValues.indexOf(holder.mCity);
+                    mValues.remove(indexOfCity);
+                    notifyItemRemoved(indexOfCity);
+                    notifyItemRangeChanged(indexOfCity, mValues.size());
                 }
             }
         });

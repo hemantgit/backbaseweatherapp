@@ -7,5 +7,5 @@ import bartburg.nl.backbaseweather.model.City;
  */
 
 public interface OnBookmarkInterationListener {
-    void onListFragmentInteraction(City cityClicked, CityAction action);
+    void onBookmarkInteraction(City cityClicked, CityAction action);
 }
