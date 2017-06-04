@@ -11,10 +11,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 
 import bartburg.nl.backbaseweather.MainActivity;
 import bartburg.nl.backbaseweather.R;
 import bartburg.nl.backbaseweather.model.City;
+import bartburg.nl.backbaseweather.provision.local.controller.city.CityDbHandler;
 import bartburg.nl.backbaseweather.provision.remote.controller.BaseApiController;
 import bartburg.nl.backbaseweather.provision.remote.controller.forecast.ForecastApiController;
 import bartburg.nl.backbaseweather.provision.remote.controller.forecast.ForecastResponse;
@@ -33,6 +35,9 @@ public class LocationFragment extends Fragment implements OnCurrentCityLoadedLis
     private City city;
     private MainActivity parent;
     public ForecastResponse forecastResponse;
+    private boolean cityBookmarked = false;
+    private float currentBookmarkIconAlpha = 0.15f;
+    private View bookmarkIcon;
 
 
     public LocationFragment() {
@@ -62,7 +67,33 @@ public class LocationFragment extends Fragment implements OnCurrentCityLoadedLis
         // Inflate the layout for this fragment
         final View parent = inflater.inflate(R.layout.fragment_location, container, false);
         getForecast();
+        if (city != null) {
+            cityBookmarked = new CityDbHandler(getContext()).cityInDb(city.getId());
+        }
+        bookmarkIcon = parent.findViewById(R.id.bookmarked_icon);
+        setBookmarkedIcon(parent, false);
+        setBookmarkIconClickListener(parent);
         return parent;
+    }
+
+    private void setBookmarkIconClickListener(View parent) {
+        bookmarkIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggleBookmarkThisCity();
+            }
+        });
+    }
+
+    private void setBookmarkedIcon(View parent, boolean animate) {
+        if (parent != null) {
+            AlphaAnimation animation1 = new AlphaAnimation(currentBookmarkIconAlpha, cityBookmarked ? 1f : 0.15f);
+            animation1.setDuration(animate ? 150 : 0);
+            animation1.setStartOffset(0);
+            animation1.setFillAfter(true);
+            bookmarkIcon.startAnimation(animation1);
+            currentBookmarkIconAlpha = cityBookmarked ? 1f : 0.15f;
+        }
     }
 
     private void getForecast() {
@@ -108,9 +139,11 @@ public class LocationFragment extends Fragment implements OnCurrentCityLoadedLis
     }
 
     public void toggleBookmarkThisCity() {
-        if (parent != null) {
-            city.setBookmarked(!city.isBookmarked());
+        if (parent != null && city != null) {
+            cityBookmarked = !cityBookmarked;
+            city.setBookmarked(cityBookmarked);
             parent.onFragmentInteraction(city);
+            setBookmarkedIcon(getView(), true);
         }
     }
 

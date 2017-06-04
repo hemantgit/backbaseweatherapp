@@ -35,30 +35,33 @@ public class CityDbHandler extends SQLiteOpenHelper {
                 + COLUMN_CITY_NAME + " TEXT, "
                 + COLUMN_LATITUDE + " REAL, "
                 + COLUMN_LONGITUDE + " REAL "
-                +  ");";
+                + ");";
         db.execSQL(sqlCreateTable);
 
     }
+
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //TODO if this would be a real project: try to keep the data and provide legacy support if possible.
-        if(oldVersion == 1){
+        if (oldVersion == 1) {
             db.execSQL("DROP TABLE IF EXISTS " + CITY_TABLE_NAME);
         }
         onCreate(db);
     }
+
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         onUpgrade(db, oldVersion, newVersion);
     }
 
     /**
      * Add city to database.
+     *
      * @param city City to add to the database
      * @return true if city is created and didn't already exist.
      */
-    public boolean addCity(City city){
-        if(city == null ||
-            city.getCoordinates() == null||
-            doesCityExist(city.getId())){
+    public boolean addCity(City city) {
+        if (city == null ||
+                city.getCoordinates() == null ||
+                doesCityExist(city.getId())) {
             // TODO call update
             return false;
         }
@@ -73,7 +76,7 @@ public class CityDbHandler extends SQLiteOpenHelper {
         return true;
     }
 
-    public void deleteCity(City city){
+    public void deleteCity(City city) {
         deleteCity(city.getId());
     }
 
@@ -84,9 +87,9 @@ public class CityDbHandler extends SQLiteOpenHelper {
 
     public boolean doesCityExist(Integer cityId) {
         SQLiteDatabase db = getReadableDatabase();
-        String query = "SELECT * FROM " + CITY_TABLE_NAME+ " WHERE " + COLUMN_ID + " = " + String.valueOf(cityId);
+        String query = "SELECT * FROM " + CITY_TABLE_NAME + " WHERE " + COLUMN_ID + " = " + String.valueOf(cityId);
         Cursor cursor = db.rawQuery(query, null);
-        if(cursor.getCount() <= 0){
+        if (cursor.getCount() <= 0) {
             cursor.close();
             return false;
         }
@@ -94,7 +97,7 @@ public class CityDbHandler extends SQLiteOpenHelper {
         return true;
     }
 
-    public ArrayList<City> getAllCities(){
+    public ArrayList<City> getAllCities() {
         ArrayList<City> cities = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + CITY_TABLE_NAME, null);
@@ -110,5 +113,11 @@ public class CityDbHandler extends SQLiteOpenHelper {
         }
         cursor.close();
         return cities;
+    }
+
+    public boolean cityInDb(int cityId) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT EXISTS(SELECT 1 FROM " + CITY_TABLE_NAME + " WHERE " + COLUMN_ID + "=" + cityId + " LIMIT 1);", null);
+        return cursor.getCount() > 0;
     }
 }
