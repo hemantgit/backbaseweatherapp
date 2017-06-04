@@ -1,14 +1,20 @@
 package bartburg.nl.backbaseweather.view.bookmarks;
 
 import android.content.Context;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import bartburg.nl.backbaseweather.R;
 import bartburg.nl.backbaseweather.model.City;
+import bartburg.nl.backbaseweather.provision.remote.controller.weather.WeatherApiController;
+import bartburg.nl.backbaseweather.provision.remote.controller.weather.WeatherResponse;
 import bartburg.nl.backbaseweather.view.bookmarks.BookmarksListFragment.OnListFragmentInteractionListener;
 
 import java.util.ArrayList;
@@ -41,20 +47,39 @@ public class BookmarkRecyclerViewAdapter extends RecyclerView.Adapter<BookmarkRe
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         City city = mValues.get(position);
-        holder.mItem = city;
-        holder.mIdView.setText(city.getName());
-        // holder.mContentView.setText(city.getCurrentWeatherText(context));
-
+        holder.mCity = city;
+        holder.cityNameTextView.setText(city.getName());
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+                if (mListener != null) {
+                    mListener.onListFragmentInteraction(holder.mCity, CityAction.LOAD);
+                    Log.d("Bookmark", "Load bookmark");
                 }
             }
         });
+        holder.mRemoveClickArea.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mListener != null) {
+                    mListener.onListFragmentInteraction(holder.mCity, CityAction.DELETE);
+                    Log.d("Bookmark", "Delete bookmark");
+                }
+            }
+        });
+        //TODO caching of weather
+        new WeatherApiController().getWeather(holder.mCity.getName(), new WeatherApiController.OnWeatherResponseListener() {
+            @Override
+            public void onSuccess(final WeatherResponse weatherResponse) {
+               holder.mView.post(new Runnable() {
+                   @Override
+                   public void run() {
+                       holder.cityWeatherTextView.setText("weer ontvangen");
+                       holder.cityWeatherIcon.setImageResource(R.drawable.cloudy);
+                   }
+               });
+            }
+        }, null);
     }
 
     @Override
@@ -64,20 +89,24 @@ public class BookmarkRecyclerViewAdapter extends RecyclerView.Adapter<BookmarkRe
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public City mItem;
+        public final TextView cityNameTextView;
+        public final TextView cityWeatherTextView;
+        public final ImageView cityWeatherIcon;
+        public final View mRemoveClickArea;
+        public City mCity;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            cityNameTextView = (TextView) view.findViewById(R.id.id);
+            cityWeatherTextView = (TextView) view.findViewById(R.id.content);
+            cityWeatherIcon = (ImageView) view.findViewById(R.id.icon_weather);
+            mRemoveClickArea = view.findViewById(R.id.remove_click_area);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + cityWeatherTextView.getText() + "'";
         }
     }
 }

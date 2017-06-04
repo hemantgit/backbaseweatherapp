@@ -4,6 +4,7 @@ package bartburg.nl.backbaseweather.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -40,6 +41,11 @@ public class Coordinates implements Parcelable
     public Coordinates(Double lat, Double lon) {
         this.lat = lat;
         this.lon = lon;
+    }
+
+    public Coordinates(LatLng latLng) {
+        lat = latLng.latitude;
+        lon = latLng.longitude;
     }
 
     public Double getLat() {

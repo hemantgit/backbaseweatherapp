@@ -15,6 +15,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +27,7 @@ import bartburg.nl.backbaseweather.provision.remote.controller.weather.WeatherAp
 import bartburg.nl.backbaseweather.provision.remote.controller.weather.WeatherResponse;
 import bartburg.nl.backbaseweather.view.bookmarks.BookmarksListFragment;
 import bartburg.nl.backbaseweather.view.bookmarks.BookmarksTabHostFragment;
+import bartburg.nl.backbaseweather.view.bookmarks.CityAction;
 import bartburg.nl.backbaseweather.view.location.LocationForecastFragment;
 
 public class MainActivity extends AppCompatActivity
@@ -36,16 +38,22 @@ public class MainActivity extends AppCompatActivity
     private City currentCity;
 
     @Override
-    public void onListFragmentInteraction(City city) {
-        currentCity = city;
-    }
-
-    @Override
     public void onFragmentInteraction(City city) {
         if(city.isBookmarked()){
             new CityDbHandler(this).deleteCity(city);
         } else {
             new CityDbHandler(this).addCity(city);
+        }
+    }
+
+    @Override
+    public void onListFragmentInteraction(City cityClicked, CityAction action) {
+        //TODO remove?
+        switch (action){
+            case ADD:
+                break;
+            case DELETE:
+                break;
         }
     }
 
@@ -60,6 +68,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         initNavigationDrawer(toolbar);
@@ -96,7 +105,7 @@ public class MainActivity extends AppCompatActivity
         new WeatherApiController().getWeather(new Coordinates(location.getLatitude(), location.getLongitude()), new WeatherApiController.OnWeatherResponseListener() {
             @Override
             public void onSuccess(WeatherResponse weatherResponse) {
-                new CityDbHandler(MainActivity.this).addCity(new City(weatherResponse.getCityId(), weatherResponse.getName(), weatherResponse.getCoordinates()));
+                new CityDbHandler(MainActivity.this).addCity(weatherResponse.getCity());
                 openFragment(FragmentName.BOOKMARKS);
             }
         }, null);

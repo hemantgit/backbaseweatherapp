@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="70dp"
     android:layout_marginTop="20dp"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
     android:background="@drawable/background_card"
-    android:orientation="horizontal"
-    android:padding="10dp">
+    android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/icon_weather"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@drawable/sun"
         android:tint="@color/blue1"
+        android:layout_marginLeft="10dp"
         android:layout_centerVertical="true"/>
 
     <View
@@ -39,7 +39,7 @@
         android:layout_marginLeft="@dimen/text_margin"
         android:layout_toRightOf="@id/icon_weather"
         android:layout_below="@id/center_line"
-        android:text="20°C / Sunny"
+        android:text="@string/label_no_information_yet"
         android:textAppearance="?attr/textAppearanceListItem"
         android:textStyle="italic"
         android:textColor="@color/grey"/>
@@ -47,7 +47,7 @@
     <View
         android:id="@+id/remove_click_area"
         android:layout_width="60dp"
-        android:layout_height="50dp"
+        android:layout_height="70dp"
         android:layout_alignParentRight="true"
         />
 
@@ -55,8 +55,9 @@
         android:id="@+id/remove_icon"
         android:layout_width="20dp"
         android:layout_height="20dp"
+        android:layout_margin="10dp"
         android:layout_gravity="center"
-        android:src="@drawable/close_circular_button_of_a_cross"
+        app:srcCompat="@drawable/close_circular_button_of_a_cross"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:tint="@color/blue3"/>

@@ -3,6 +3,7 @@ package bartburg.nl.backbaseweather.view.bookmarks;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,9 +21,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import bartburg.nl.backbaseweather.MainActivity;
 import bartburg.nl.backbaseweather.R;
 import bartburg.nl.backbaseweather.model.City;
+import bartburg.nl.backbaseweather.model.Coordinates;
 import bartburg.nl.backbaseweather.provision.local.controller.city.CityDbHandler;
+import bartburg.nl.backbaseweather.provision.remote.controller.weather.WeatherApiController;
+import bartburg.nl.backbaseweather.provision.remote.controller.weather.WeatherResponse;
 
 /**
  * created by Bart Burg
@@ -31,7 +36,7 @@ public class BookmarksMapFragment extends Fragment implements OnMapReadyCallback
     private static final String TAG_LATITUDE = "param1";
     private static final String TAG_LONGITUDE = "param2";
     private static final String TAG_ZOOM = "param2";
-    
+
     private double latitude = 52.1588484;
     private double longitude = 5.0566821;
     private float zoom = 8f;
@@ -41,13 +46,13 @@ public class BookmarksMapFragment extends Fragment implements OnMapReadyCallback
     HashMap<Marker, City> markerCityMap = new HashMap<>();
 
 
-    public BookmarksMapFragment() {}
+    public BookmarksMapFragment() {
+    }
 
     /**
-     *
-     * @param latitude latitude position of where the map should start.
+     * @param latitude  latitude position of where the map should start.
      * @param longitude longitude position of where the map should start.
-     * @param zoom zoom of the map at start.
+     * @param zoom      zoom of the map at start.
      * @return A new instance of fragment BookmarksMapFragment.
      */
     // TODO: Rename and change types and number of parameters
@@ -106,31 +111,61 @@ public class BookmarksMapFragment extends Fragment implements OnMapReadyCallback
         this.googleMap = googleMap;
         LatLng startPosition = new LatLng(latitude, longitude);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startPosition, zoom));
-        placeMarkers();
+        placeMarkers(new CityDbHandler(getContext()).getAllCities());
+        googleMap.setOnMapLongClickListener(getOnMapLongclickListener());
     }
 
-    private void placeMarkers(){
-        if(googleMap != null){
-            ArrayList<City> allCities = new CityDbHandler(getContext()).getAllCities();
-            for(City city : allCities){
-                LatLng cityPosition = new LatLng(city.getCoordinates().getLat(), city.getCoordinates().getLon());
-                Marker marker = googleMap.addMarker(new MarkerOptions().position(cityPosition)
-                        .title(city.getName()));
-                markerCityMap.put(marker, city);
-            }
-            googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                @Override
-                public boolean onMarkerClick(Marker marker) {
-                    City city = markerCityMap.get(marker);
-                    if (city != null)
-                    {
 
-                        return true;
-                    }
-                    return false;
-                }
-            });
+    private void placeMarker(City city) {
+        if (googleMap != null) {
+            LatLng cityPosition = new LatLng(city.getCoordinates().getLat(), city.getCoordinates().getLon());
+            Marker marker = googleMap.addMarker(new MarkerOptions().position(cityPosition)
+                    .title(city.getName()));
+            markerCityMap.put(marker, city);
+            googleMap.setOnMarkerClickListener(getOnMarkerClickListener());
         }
+    }
+
+    private void placeMarkers(ArrayList<City> cities) {
+        for (City city : cities) {
+            placeMarker(city);
+        }
+    }
+
+    private GoogleMap.OnMapLongClickListener getOnMapLongclickListener() {
+        return new GoogleMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(LatLng latLng) {
+                new WeatherApiController().getWeather(new Coordinates(latLng), new WeatherApiController.OnWeatherResponseListener() {
+                    @Override
+                    public void onSuccess(final WeatherResponse weatherResponse) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                City city = weatherResponse.getCity();
+                                new CityDbHandler(getContext()).addCity(city);
+                                placeMarker(city);
+                            }
+                        });
+                    }
+                }, null);
+            }
+        };
+    }
+
+    @NonNull
+    private GoogleMap.OnMarkerClickListener getOnMarkerClickListener() {
+        return new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                City city = markerCityMap.get(marker);
+                if (city != null) {
+
+                    return true;
+                }
+                return false;
+            }
+        };
     }
 
     @Override

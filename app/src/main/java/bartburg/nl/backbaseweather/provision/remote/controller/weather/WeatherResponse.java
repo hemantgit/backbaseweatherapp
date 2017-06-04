@@ -9,6 +9,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import bartburg.nl.backbaseweather.AppConstants;
+import bartburg.nl.backbaseweather.model.City;
 import bartburg.nl.backbaseweather.model.Clouds;
 import bartburg.nl.backbaseweather.model.Coordinates;
 import bartburg.nl.backbaseweather.model.Main;
@@ -178,6 +179,10 @@ public class WeatherResponse implements Parcelable
 
     public void setResponseCode(Integer responseCode) {
         this.responseCode = responseCode;
+    }
+
+    public City getCity(){
+        return new City(getCityId(), getName(), getCoordinates());
     }
 
     public void writeToParcel(Parcel dest, int flags) {

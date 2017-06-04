@@ -24,7 +24,6 @@ import static bartburg.nl.backbaseweather.AppConstants.OPEN_WEATHER_PROTOCOL;
 
 public abstract class BaseApiController {
 
-
     /**
      * Do the actual work of requesting data from the server. Note, should not run on main thread.
      * @param parameters Parameters that will be added to the query string.

@@ -1,5 +1,6 @@
 package bartburg.nl.backbaseweather.provision.remote.controller.forecast;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.google.gson.Gson;
