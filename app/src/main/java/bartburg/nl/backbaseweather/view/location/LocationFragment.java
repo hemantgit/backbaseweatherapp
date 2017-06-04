@@ -254,9 +254,6 @@ public class LocationFragment extends Fragment implements OnCurrentCityLoadedLis
         getWeatherAndForecast();
     }
 
-    /**
-     *
-     */
     public interface OnCityBookmarkChangedListener {
         void onCityBookmarkChanged(City city, boolean bookmark);
     }
