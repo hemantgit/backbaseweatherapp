@@ -22,6 +22,7 @@ body {
         @include push(1);
         background-color: $white;
         margin-bottom: 20px;
+        border-radius: 4px;
 
         @media screen and(max-width: 719px){
             padding: 20px;
