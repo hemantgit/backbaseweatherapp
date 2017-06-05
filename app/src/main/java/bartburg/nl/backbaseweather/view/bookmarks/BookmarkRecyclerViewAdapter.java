@@ -115,7 +115,7 @@ public class BookmarkRecyclerViewAdapter extends RecyclerView.Adapter<BookmarkRe
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            cityNameTextView = (TextView) view.findViewById(R.id.id);
+            cityNameTextView = (TextView) view.findViewById(R.id.city_name_textview);
             cityWeatherTextView = (TextView) view.findViewById(R.id.content);
             cityWeatherIcon = (ImageView) view.findViewById(R.id.icon_weather);
             mRemoveClickArea = view.findViewById(R.id.remove_click_area);

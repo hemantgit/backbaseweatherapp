@@ -6,13 +6,12 @@
     android:layout_height="match_parent"
     tools:context="bartburg.nl.backbaseweather.view.bookmarks.BookmarksListFragment">
 
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/bookmarked_cities_list"
         android:name="bartburg.nl.backbaseweather.view.bookmarks.BookmarksListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
         android:paddingBottom="20dp"
         app:layoutManager="LinearLayoutManager"
         tools:listitem="@layout/fragment_bookmark" />
@@ -22,11 +21,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:padding="20dp"
+        android:padding="@dimen/default_padding"
         android:text="@string/no_bookmarked_locations"
         android:textColor="@color/blue1"
-        android:textSize="20sp"
+        android:textSize="@dimen/default_font_size"
         android:visibility="gone" />
-
 </RelativeLayout>
 

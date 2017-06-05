@@ -8,6 +8,7 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
@@ -34,6 +35,7 @@ import bartburg.nl.backbaseweather.view.bookmarks.CityAction;
 import bartburg.nl.backbaseweather.view.bookmarks.OnBookmarkInteractionListener;
 import bartburg.nl.backbaseweather.view.help.HelpFragment;
 import bartburg.nl.backbaseweather.view.location.LocationFragment;
+import bartburg.nl.backbaseweather.view.search.SearchCityFragment;
 import bartburg.nl.backbaseweather.view.settings.BackbaseWeatherPreferenceFragment;
 import io.fabric.sdk.android.Fabric;
 
@@ -47,6 +49,7 @@ public class MainActivity extends AppCompatActivity
     private City currentCity;
     private NavigationView navigationView;
     private FragmentName openFragment;
+    private AppBarLayout appbarLayout;
 
     @Override
     public void onCityBookmarkChanged(City city, boolean bookmark) {
@@ -58,7 +61,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onBookmarkInteraction(City cityInteracted, CityAction action) {
+    public void onBookmarkInteraction(final City cityInteracted, CityAction action) {
         switch (action) {
             case ADD:
                 new CityDbHandler(this).addCity(cityInteracted);
@@ -67,11 +70,17 @@ public class MainActivity extends AppCompatActivity
                 new CityDbHandler(this).deleteCity(cityInteracted);
                 break;
             case LOAD:
-                navigationView.getMenu().getItem(1).setChecked(true); //TODO should be more dynamic
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.main_fragment_container, LocationFragment.newInstance(cityInteracted));
-                fragmentTransaction.commitAllowingStateLoss();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        navigationView.getMenu().findItem(R.id.nav_location).setChecked(true);
+                        FragmentManager fragmentManager = getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.main_fragment_container, LocationFragment.newInstance(cityInteracted));
+                        fragmentTransaction.commitAllowingStateLoss();
+                        appbarLayout.setExpanded(true);
+                    }
+                });
                 break;
         }
     }
@@ -80,7 +89,8 @@ public class MainActivity extends AppCompatActivity
         BOOKMARKS,
         HELP,
         LOCATION,
-        SETTINGS
+        SETTINGS,
+        SEARCH
     }
 
     @Override
@@ -90,6 +100,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        appbarLayout = (AppBarLayout) findViewById(R.id.appbar);
         setSupportActionBar(toolbar);
         initNavigationDrawer(toolbar);
         getUserLocation();
@@ -189,14 +200,22 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_bookmarks) {
-            openFragment(FragmentName.BOOKMARKS);
-        } else if (id == R.id.nav_location) {
-            openFragment(FragmentName.LOCATION);
-        } else if (id == R.id.nav_help) {
-            openFragment(FragmentName.HELP);
-        } else if (id == R.id.nav_settings) {
-            openFragment(FragmentName.SETTINGS);
+        switch (id) {
+            case R.id.nav_bookmarks:
+                openFragment(FragmentName.BOOKMARKS);
+                break;
+            case R.id.nav_location:
+                openFragment(FragmentName.LOCATION);
+                break;
+            case R.id.nav_help:
+                openFragment(FragmentName.HELP);
+                break;
+            case R.id.nav_settings:
+                openFragment(FragmentName.SETTINGS);
+                break;
+            case R.id.nav_search:
+                openFragment(FragmentName.SEARCH);
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -211,6 +230,9 @@ public class MainActivity extends AppCompatActivity
         switch (fragmentName) {
             case BOOKMARKS:
                 fragmentTransaction.replace(R.id.main_fragment_container, BookmarksTabHostFragment.newInstance(0));
+                break;
+            case SEARCH:
+                fragmentTransaction.replace(R.id.main_fragment_container, SearchCityFragment.newInstance(0));
                 break;
             case LOCATION:
                 fragmentTransaction.replace(R.id.main_fragment_container, LocationFragment.newInstance(currentCity));

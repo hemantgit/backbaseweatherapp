@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="70dp"
-    android:layout_marginTop="20dp"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
+    android:layout_marginLeft="@dimen/default_margin"
+    android:layout_marginRight="@dimen/default_margin"
+    android:layout_marginTop="@dimen/default_margin"
     android:background="@drawable/background_card"
     android:orientation="horizontal">
 
@@ -13,18 +13,18 @@
         android:id="@+id/icon_weather"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:tint="@color/blue1"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
-        android:layout_centerVertical="true"/>
+        android:tint="@color/blue1" />
 
     <View
         android:id="@+id/center_line"
         android:layout_width="0dp"
         android:layout_height="3dp"
-        android:layout_centerVertical="true"/>
+        android:layout_centerVertical="true" />
 
     <TextView
-        android:id="@+id/id"
+        android:id="@+id/city_name_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/center_line"
@@ -36,30 +36,29 @@
         android:id="@+id/content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/center_line"
         android:layout_marginLeft="@dimen/text_margin"
         android:layout_toRightOf="@id/icon_weather"
-        android:layout_below="@id/center_line"
         android:text="@string/label_no_information_yet"
         android:textAppearance="?attr/textAppearanceListItem"
-        android:textStyle="italic"
-        android:textColor="@color/grey"/>
+        android:textColor="@color/grey"
+        android:textStyle="italic" />
 
     <View
         android:id="@+id/remove_click_area"
         android:layout_width="60dp"
         android:layout_height="70dp"
-        android:layout_alignParentRight="true"
-        />
+        android:layout_alignParentRight="true" />
 
     <ImageView
         android:id="@+id/remove_icon"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_margin="10dp"
-        android:layout_gravity="center"
-        app:srcCompat="@drawable/close_circular_button_of_a_cross"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:tint="@color/blue3"/>
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:tint="@color/blue3"
+        app:srcCompat="@drawable/close_circular_button_of_a_cross" />
 
 </RelativeLayout>

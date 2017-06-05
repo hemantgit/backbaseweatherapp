@@ -7,6 +7,10 @@
             android:icon="@drawable/bookmarks"
             android:title="@string/nav_title_bookmarks" />
         <item
+            android:id="@+id/nav_search"
+            android:icon="@drawable/bookmarks"
+            android:title="@string/nav_title_search" />
+        <item
             android:id="@+id/nav_location"
             android:icon="@drawable/city"
             android:title="@string/nav_title_location" />
