@@ -13,6 +13,8 @@ import java.util.HashMap;
 
 import bartburg.nl.backbaseweather.AppConstants;
 import bartburg.nl.backbaseweather.provision.remote.annotation.ApiController;
+import bartburg.nl.backbaseweather.provision.remote.controller.forecast.ForecastResponse;
+import bartburg.nl.backbaseweather.provision.remote.controller.weather.WeatherResponse;
 import bartburg.nl.backbaseweather.provision.remote.helper.QueryStringHelper;
 
 import static bartburg.nl.backbaseweather.AppConstants.OPEN_WEATHER_MAP_BASE_URL;
@@ -24,9 +26,12 @@ import static bartburg.nl.backbaseweather.AppConstants.OPEN_WEATHER_PROTOCOL;
 
 public abstract class BaseApiController {
 
+
+
     /**
      * Do the actual work of requesting data from the server. Note, should not run on main thread.
-     * @param parameters Parameters that will be added to the query string.
+     *
+     * @param parameters      Parameters that will be added to the query string.
      * @param onErrorListener Listener that will get called when status code is not 200
      * @return The result string or *null* when failed.
      */
@@ -68,13 +73,14 @@ public abstract class BaseApiController {
         void onError(int responseCode, String responseMessage);
     }
 
-    protected String getRelativePath(){
+    protected String getRelativePath() {
         Class<? extends BaseApiController> aClass = getClass();
-        if(aClass.isAnnotationPresent(ApiController.class)){
+        if (aClass.isAnnotationPresent(ApiController.class)) {
             Annotation annotation = aClass.getAnnotation(ApiController.class);
             ApiController apiController = (ApiController) annotation;
             return apiController.relativePath();
         }
         return "";
-    };
+    }
+
 }

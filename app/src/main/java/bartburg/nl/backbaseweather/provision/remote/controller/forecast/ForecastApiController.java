@@ -1,6 +1,7 @@
 package bartburg.nl.backbaseweather.provision.remote.controller.forecast;
 
 import android.os.AsyncTask;
+import android.support.annotation.Nullable;
 
 import com.google.gson.Gson;
 
@@ -21,7 +22,7 @@ public class ForecastApiController extends BaseApiController {
 
 
     //TODO DRY methods
-    public void getForecast(final String cityName, final OnForecastResponseListener onForecastResponseListener, final OnErrorListener onErrorListener) {
+    public void getForecast(final String cityName, final OnForecastResponseListener onForecastResponseListener, @Nullable final OnErrorListener onErrorListener) {
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
@@ -37,7 +38,7 @@ public class ForecastApiController extends BaseApiController {
     }
 
     //TODO DRY methods
-    public void getForecast(final Coordinates coordinates, final OnForecastResponseListener onForecastResponseListener, final OnErrorListener onErrorListener) {
+    public void getForecast(final Coordinates coordinates, final OnForecastResponseListener onForecastResponseListener, @Nullable final OnErrorListener onErrorListener) {
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
@@ -53,7 +54,7 @@ public class ForecastApiController extends BaseApiController {
         });
     }
 
-    public static interface OnForecastResponseListener {
+    public interface OnForecastResponseListener {
         void onSuccess(ForecastResponse forecastResponse);
     }
 

@@ -26,7 +26,7 @@ public class ForecastDataPresenter {
     }
 
     public static String getHumidityText(Forecast forecast) {
-        return String.valueOf(forecast.getHumidity());
+        return String.valueOf(forecast.getHumidity() + "%");
     }
 
     public static String getRainChanceText(Forecast forecast) {

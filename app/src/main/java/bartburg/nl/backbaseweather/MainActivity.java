@@ -7,6 +7,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
@@ -23,7 +24,6 @@ import android.view.MenuItem;
 
 import com.crashlytics.android.Crashlytics;
 
-import bartburg.nl.backbaseweather.enumeration.MetricUnitSystem;
 import bartburg.nl.backbaseweather.model.City;
 import bartburg.nl.backbaseweather.model.Coordinates;
 import bartburg.nl.backbaseweather.provision.local.controller.city.CityDbHandler;
@@ -41,14 +41,12 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnBookmarkInteractionListener, LocationFragment.OnCityBookmarkChangedListener {
 
 
-    private static final String TAG_CITY_PARCELLABLE = "cityParcelable";
+    private static final String TAG_CITY_PARCELABLE = "cityParcelable";
     private static final String TAG_OPEN_SCREEN = "openScreen";
     public static final int PERMISSION_ACCESS_ACCESS_FINE_LOCATION = 1;
-    private LocationManager locationManager;
     private City currentCity;
     private NavigationView navigationView;
     private FragmentName openFragment;
-    public static MetricUnitSystem WEATHER_UNIT_SYSTEM = MetricUnitSystem.CELCIUS;
 
     @Override
     public void onCityBookmarkChanged(City city, boolean bookmark) {
@@ -78,7 +76,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public enum FragmentName {
+    private enum FragmentName {
         BOOKMARKS,
         HELP,
         LOCATION,
@@ -104,7 +102,7 @@ public class MainActivity extends AppCompatActivity
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSION_ACCESS_ACCESS_FINE_LOCATION);
         } else {
-            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             if (location != null) {
                 getCurrentLocationWeather(location);
@@ -114,7 +112,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+                                           @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
             case PERMISSION_ACCESS_ACCESS_FINE_LOCATION: {
                 if (grantResults.length > 0
@@ -187,7 +185,7 @@ public class MainActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -230,7 +228,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable(TAG_CITY_PARCELLABLE, currentCity);
+        outState.putParcelable(TAG_CITY_PARCELABLE, currentCity);
         outState.putSerializable(TAG_OPEN_SCREEN, openFragment);
     }
 
@@ -238,7 +236,7 @@ public class MainActivity extends AppCompatActivity
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         if (savedInstanceState != null) {
-            currentCity = savedInstanceState.getParcelable(TAG_CITY_PARCELLABLE);
+            currentCity = savedInstanceState.getParcelable(TAG_CITY_PARCELABLE);
             openFragment = (FragmentName) savedInstanceState.getSerializable(TAG_OPEN_SCREEN);
             openFragment(openFragment);
         }

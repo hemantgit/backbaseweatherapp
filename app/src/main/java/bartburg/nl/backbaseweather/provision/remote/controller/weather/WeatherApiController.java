@@ -1,15 +1,15 @@
 package bartburg.nl.backbaseweather.provision.remote.controller.weather;
 
-import android.content.Context;
 import android.os.AsyncTask;
+import android.support.annotation.Nullable;
 
 import com.google.gson.Gson;
 
 import java.util.HashMap;
 
 import bartburg.nl.backbaseweather.model.Coordinates;
-import bartburg.nl.backbaseweather.provision.remote.controller.BaseApiController;
 import bartburg.nl.backbaseweather.provision.remote.annotation.ApiController;
+import bartburg.nl.backbaseweather.provision.remote.controller.BaseApiController;
 
 /**
  * Created by Bart on 6/3/2017.
@@ -21,7 +21,7 @@ import bartburg.nl.backbaseweather.provision.remote.annotation.ApiController;
 public class WeatherApiController extends BaseApiController {
 
     //TODO DRY methods
-    public void getWeather(final String cityName, final OnWeatherResponseListener onWeatherResponseListener, final BaseApiController.OnErrorListener onErrorListener) {
+    public void getWeather(final String cityName, final OnWeatherResponseListener onWeatherResponseListener, @Nullable final BaseApiController.OnErrorListener onErrorListener) {
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
@@ -37,8 +37,9 @@ public class WeatherApiController extends BaseApiController {
         });
     }
 
+
     //TODO DRY methods
-    public void getWeather(final Coordinates coordinates, final OnWeatherResponseListener onWeatherResponseListener, final BaseApiController.OnErrorListener onErrorListener) {
+    public void getWeather(final Coordinates coordinates, final OnWeatherResponseListener onWeatherResponseListener, @Nullable final BaseApiController.OnErrorListener onErrorListener) {
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
@@ -54,6 +55,7 @@ public class WeatherApiController extends BaseApiController {
             }
         });
     }
+
 
     public interface OnWeatherResponseListener {
         void onSuccess(WeatherResponse weatherResponse);
