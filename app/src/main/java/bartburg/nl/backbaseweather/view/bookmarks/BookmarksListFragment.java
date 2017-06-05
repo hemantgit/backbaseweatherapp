@@ -10,7 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+
 import bartburg.nl.backbaseweather.R;
+import bartburg.nl.backbaseweather.model.City;
 import bartburg.nl.backbaseweather.provision.local.controller.city.CityDbHandler;
 
 /**
@@ -53,18 +56,21 @@ public class BookmarksListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_bookmark_list, container, false);
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+        View parent = inflater.inflate(R.layout.fragment_bookmark_list, container, false);
+        View listView = parent.findViewById(R.id.bookmarked_cities_list);
+        if (listView instanceof RecyclerView) {
+            Context context = listView.getContext();
+            RecyclerView recyclerView = (RecyclerView) listView;
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new BookmarkRecyclerViewAdapter(new CityDbHandler(context).getAllCities(), mListener));
+            ArrayList<City> allCities = new CityDbHandler(context).getAllCities();
+            recyclerView.setAdapter(new BookmarkRecyclerViewAdapter(allCities, mListener));
+            parent.findViewById(R.id.no_bookmarked_locations_textview).setVisibility(allCities.isEmpty() ? View.VISIBLE : View.GONE);
         }
-        return view;
+        return parent;
     }
 
 
