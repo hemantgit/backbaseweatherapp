@@ -16,22 +16,53 @@ import bartburg.nl.backbaseweather.R;
 import bartburg.nl.backbaseweather.helper.MetricUnitSystemHelper;
 import bartburg.nl.backbaseweather.helper.WeatherDescriptionHelper;
 import bartburg.nl.backbaseweather.model.City;
+import bartburg.nl.backbaseweather.provision.remote.controller.BaseApiController;
+import bartburg.nl.backbaseweather.provision.remote.controller.weather.MultipleCitiesWeatherResponse;
 import bartburg.nl.backbaseweather.provision.remote.controller.weather.WeatherApiController;
 import bartburg.nl.backbaseweather.provision.remote.controller.weather.WeatherResponse;
+import bartburg.nl.backbaseweather.view.bookmarks.helper.CitiesListConverter;
 
 /**
  *
  */
 public class BookmarkRecyclerViewAdapter extends RecyclerView.Adapter<BookmarkRecyclerViewAdapter.ViewHolder> {
 
-    private static final SparseArray<WeatherResponse> weatherResponses = new SparseArray<>(); // should be cached somewhere else
+    private static final SparseArray<WeatherResponse> weatherResponses = new SparseArray<>();
     private final List<City> mValues;
     private final OnBookmarkInteractionListener mListener;
+    private final View parent;
     private Context context;
 
-    public BookmarkRecyclerViewAdapter(ArrayList<City> items, OnBookmarkInteractionListener listener) {
+    public BookmarkRecyclerViewAdapter(ArrayList<City> items, OnBookmarkInteractionListener listener, View parent) {
         mValues = items;
         mListener = listener;
+        this.parent = parent;
+        //getWeatherOfAllCities();
+    }
+
+    private void getWeatherOfAllCities() {
+        new WeatherApiController().getWeatherOfMultipleCities(CitiesListConverter.toArray(mValues), new WeatherApiController.OnMultipleCitiesWeatherResponseListener() {
+            @Override
+            public void onSuccess(MultipleCitiesWeatherResponse multipleCityWeatherResponse) {
+                List<WeatherResponse> receivedWeatherResponses = multipleCityWeatherResponse.getWeatherResponses();
+                if (receivedWeatherResponses != null) {
+                    for (WeatherResponse weatherResponse : receivedWeatherResponses) {
+                        weatherResponses.put(weatherResponse.getCityId(), weatherResponse);
+                    }
+                }
+                parent.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        notifyDataSetChanged();
+                    }
+                });
+            }
+        }, new BaseApiController.OnErrorListener() {
+            @Override
+            public void onError(int responseCode, String responseMessage) {
+
+            }
+        });
     }
 
     @Override

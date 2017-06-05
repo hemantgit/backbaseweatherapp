@@ -1,8 +1,6 @@
 package bartburg.nl.backbaseweather.view.location;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,6 +16,7 @@ import android.widget.TextView;
 
 import bartburg.nl.backbaseweather.MainActivity;
 import bartburg.nl.backbaseweather.R;
+import bartburg.nl.backbaseweather.alert.ServerErrorAlert;
 import bartburg.nl.backbaseweather.helper.MetricUnitSystemHelper;
 import bartburg.nl.backbaseweather.helper.WeatherDescriptionHelper;
 import bartburg.nl.backbaseweather.model.City;
@@ -198,15 +197,7 @@ public class LocationFragment extends Fragment implements OnCurrentCityLoadedLis
                 if (LocationFragment.this.mainActivityParent == null) {
                     return;
                 }
-                new AlertDialog.Builder(LocationFragment.this.mainActivityParent)
-                        .setTitle(R.string.title_server_error)
-                        .setMessage(R.string.message_server_error)
-                        .setPositiveButton(R.string.default_confirm, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        }).show();
+                ServerErrorAlert.show(getContext());
             }
         });
     }

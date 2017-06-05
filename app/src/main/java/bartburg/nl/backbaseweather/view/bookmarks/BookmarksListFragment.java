@@ -62,7 +62,7 @@ public class BookmarksListFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new BookmarkRecyclerViewAdapter(new CityDbHandler(context).getAllCities(), mListener));
+            recyclerView.setAdapter(new BookmarkRecyclerViewAdapter(new CityDbHandler(context).getAllCities(), mListener, recyclerView));
         }
         return view;
     }

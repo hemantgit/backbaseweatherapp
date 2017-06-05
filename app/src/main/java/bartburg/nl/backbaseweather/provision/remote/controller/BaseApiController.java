@@ -13,8 +13,6 @@ import java.util.HashMap;
 
 import bartburg.nl.backbaseweather.AppConstants;
 import bartburg.nl.backbaseweather.provision.remote.annotation.ApiController;
-import bartburg.nl.backbaseweather.provision.remote.controller.forecast.ForecastResponse;
-import bartburg.nl.backbaseweather.provision.remote.controller.weather.WeatherResponse;
 import bartburg.nl.backbaseweather.provision.remote.helper.QueryStringHelper;
 
 import static bartburg.nl.backbaseweather.AppConstants.OPEN_WEATHER_MAP_BASE_URL;
@@ -27,7 +25,6 @@ import static bartburg.nl.backbaseweather.AppConstants.OPEN_WEATHER_PROTOCOL;
 public abstract class BaseApiController {
 
 
-
     /**
      * Do the actual work of requesting data from the server. Note, should not run on main thread.
      *
@@ -37,9 +34,22 @@ public abstract class BaseApiController {
      */
     @Nullable
     public String get(HashMap<String, String> parameters, @Nullable OnErrorListener onErrorListener) {
+        return get(parameters, onErrorListener, null);
+    }
+
+    /**
+     * Do the actual work of requesting data from the server. Note, should not run on main thread.
+     *
+     * @param parameters         Parameters that will be added to the query string.
+     * @param onErrorListener    Listener that will get called when status code is not 200
+     * @param customRelativePath Use this if you want to provide a custom relative path (not the one from the annotation).
+     * @return The result string or *null* when failed.
+     */
+    @Nullable
+    public String get(HashMap<String, String> parameters, @Nullable OnErrorListener onErrorListener, @Nullable String customRelativePath) {
         try {
             parameters.put("appid", AppConstants.OPEN_WEATHER_MAP_KEY);
-            URL url = new URL(OPEN_WEATHER_PROTOCOL + OPEN_WEATHER_MAP_BASE_URL + getRelativePath() + QueryStringHelper.mapToQueryString(parameters));
+            URL url = new URL(OPEN_WEATHER_PROTOCOL + OPEN_WEATHER_MAP_BASE_URL + getRelativePath(customRelativePath) + QueryStringHelper.mapToQueryString(parameters));
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
             urlConnection.connect();
@@ -73,7 +83,10 @@ public abstract class BaseApiController {
         void onError(int responseCode, String responseMessage);
     }
 
-    protected String getRelativePath() {
+    private String getRelativePath(String customRelativePath) {
+        if (customRelativePath != null) {
+            return customRelativePath;
+        }
         Class<? extends BaseApiController> aClass = getClass();
         if (aClass.isAnnotationPresent(ApiController.class)) {
             Annotation annotation = aClass.getAnnotation(ApiController.class);
