@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:name="bartburg.nl.backbaseweather.view.bookmarks.BookmarksListFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="bartburg.nl.backbaseweather.view.bookmarks.BookmarksListFragment">
@@ -9,7 +10,6 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/bookmarked_cities_list"
-        android:name="bartburg.nl.backbaseweather.view.bookmarks.BookmarksListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingBottom="20dp"

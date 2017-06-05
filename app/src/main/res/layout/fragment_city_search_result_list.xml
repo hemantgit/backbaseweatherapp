@@ -1,13 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/list"
     android:name="bartburg.nl.backbaseweather.view.bookmarks.SearchCityFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    app:layoutManager="LinearLayoutManager"
-    tools:context="bartburg.nl.backbaseweather.view.search.SearchCityFragment"
-    tools:listitem="@layout/fragment_city_search_result" />
+    tools:context="bartburg.nl.backbaseweather.view.search.SearchCityFragment">
+
+    <EditText
+        android:id="@+id/search_field_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_margin"
+        android:background="@color/white"
+        android:gravity="center"
+        android:hint="@string/filter_label"
+        android:padding="@dimen/edittext_padding"
+        android:textSize="@dimen/default_font_size" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/searchable_cities_list"
+        android:layout_below="@id/search_field_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/default_margin"
+        android:layout_marginRight="@dimen/default_margin"
+        android:paddingBottom="20dp"
+        app:layoutManager="LinearLayoutManager"
+        tools:listitem="@layout/fragment_bookmark" />
+
+</RelativeLayout>

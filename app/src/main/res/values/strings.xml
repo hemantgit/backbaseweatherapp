@@ -17,4 +17,5 @@
     <string name="title_server_error">Oops!</string>
     <string name="default_confirm">OK</string>
     <string name="no_bookmarked_locations">There are no bookmarked locations</string>
+    <string name="filter_label">Search</string>
 </resources>

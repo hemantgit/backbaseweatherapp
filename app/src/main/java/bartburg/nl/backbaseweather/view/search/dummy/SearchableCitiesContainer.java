@@ -35,7 +35,7 @@ public class SearchableCitiesContainer {
         Collections.sort(CITIES);
     }
 
-    public ArrayList<String> searchCities(String searchString) {
+    public static ArrayList<String> searchCities(String searchString) {
         ArrayList<String> searchResult = new ArrayList<>();
         for (String string : CITIES) {
             if (string.matches("(?i)(" + searchString + ").*")) {
