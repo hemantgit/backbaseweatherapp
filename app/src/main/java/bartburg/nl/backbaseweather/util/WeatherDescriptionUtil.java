@@ -1,4 +1,4 @@
-package bartburg.nl.backbaseweather.helper;
+package bartburg.nl.backbaseweather.util;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -12,7 +12,7 @@ import bartburg.nl.backbaseweather.provision.remote.controller.weather.WeatherRe
  * Created by Bart on 6/4/2017.
  */
 
-public class WeatherDescriptionHelper {
+public class WeatherDescriptionUtil {
 
     public static DecimalFormat decimalFormat = new DecimalFormat("#.0");
 
@@ -31,13 +31,13 @@ public class WeatherDescriptionHelper {
     }
 
     public static String getTemperature(WeatherResponse weatherResponse, boolean withUnit, MetricUnitSystem metricUnitSystem) {
-        return TemperatureUnitHelper.getTemperatureString(weatherResponse.getMain().getTemp(), withUnit, metricUnitSystem);
+        return TemperatureUnitUtil.getTemperatureString(weatherResponse.getMain().getTemp(), withUnit, metricUnitSystem);
     }
 
     public static int getWeatherImage(WeatherResponse weatherResponse) {
         List<Weather> weather = weatherResponse.getWeather();
         if (weather != null && !weather.isEmpty()) {
-            switch (WeatherTypeHelper.getWeatherTypeFromId(weather.get(0).getId())) {
+            switch (WeatherTypeUtil.getWeatherTypeFromId(weather.get(0).getId())) {
                 case RAIN:
                 case DRIZZLE:
                 case SNOW:

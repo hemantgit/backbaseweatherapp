@@ -1,4 +1,4 @@
-package bartburg.nl.backbaseweather.provision.local.controller.city.helper;
+package bartburg.nl.backbaseweather.provision.local.controller.city.util;
 
 import android.util.SparseArray;
 

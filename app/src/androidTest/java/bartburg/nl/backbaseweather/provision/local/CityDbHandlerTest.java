@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 import bartburg.nl.backbaseweather.model.City;
 import bartburg.nl.backbaseweather.model.Coordinates;
-import bartburg.nl.backbaseweather.provision.local.controller.city.helper.CitiesListConverter;
+import bartburg.nl.backbaseweather.provision.local.controller.city.util.CitiesListConverter;
 import bartburg.nl.backbaseweather.provision.local.controller.city.CityDbHandler;
 
 /**

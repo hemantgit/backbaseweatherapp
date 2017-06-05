@@ -1,4 +1,4 @@
-package bartburg.nl.backbaseweather.helper;
+package bartburg.nl.backbaseweather.util;
 
 import java.text.DecimalFormat;
 
@@ -8,16 +8,16 @@ import bartburg.nl.backbaseweather.enumeration.MetricUnitSystem;
  * Created by Bart on 6/4/2017.
  */
 
-public class TemperatureUnitHelper {
+public class TemperatureUnitUtil {
 
     public static DecimalFormat decimalFormat = new DecimalFormat("0.0");
 
     public static String getTemperatureString(double kelvinValue, boolean withUnit, MetricUnitSystem metricUnitSystem) {
         if (metricUnitSystem == MetricUnitSystem.CELCIUS) {
-            double temperatureInCelsius = TemperatureUnitHelper.kelvinToCelsius(kelvinValue);
+            double temperatureInCelsius = TemperatureUnitUtil.kelvinToCelsius(kelvinValue);
             return decimalFormat.format(temperatureInCelsius) + (withUnit ? (char) 0x00B0 + "C" : "");
         } else {
-            double temperatureInFahrenheit = TemperatureUnitHelper.kelvindToFahrenheit(kelvinValue);
+            double temperatureInFahrenheit = TemperatureUnitUtil.kelvindToFahrenheit(kelvinValue);
             return decimalFormat.format(temperatureInFahrenheit) + (withUnit ? (char) 0x00B0 + "F" : "");
         }
     }

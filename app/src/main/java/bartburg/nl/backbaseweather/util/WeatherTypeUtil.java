@@ -1,4 +1,4 @@
-package bartburg.nl.backbaseweather.helper;
+package bartburg.nl.backbaseweather.util;
 
 import bartburg.nl.backbaseweather.WeatherType;
 import bartburg.nl.backbaseweather.model.WeatherRange;
@@ -7,7 +7,7 @@ import bartburg.nl.backbaseweather.model.WeatherRange;
  * Created by Bart on 6/4/2017.
  */
 
-public class WeatherTypeHelper {
+public class WeatherTypeUtil {
 
     private static final WeatherRange[] weatherRanges = new WeatherRange[]{
             new WeatherRange(200, 232, WeatherType.THUNDER),

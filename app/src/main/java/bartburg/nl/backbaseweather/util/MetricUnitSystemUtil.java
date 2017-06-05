@@ -1,4 +1,4 @@
-package bartburg.nl.backbaseweather.helper;
+package bartburg.nl.backbaseweather.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -10,7 +10,7 @@ import bartburg.nl.backbaseweather.enumeration.MetricUnitSystem;
  * Created by Bart on 6/5/2017.
  */
 
-public class MetricUnitSystemHelper {
+public class MetricUnitSystemUtil {
     public static MetricUnitSystem getWeatherUnitSystem(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         String metricName = prefs.getString("metric", "Celsius");

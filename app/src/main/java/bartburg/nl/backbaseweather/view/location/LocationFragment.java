@@ -17,8 +17,8 @@ import android.widget.TextView;
 import bartburg.nl.backbaseweather.MainActivity;
 import bartburg.nl.backbaseweather.R;
 import bartburg.nl.backbaseweather.alert.ServerErrorAlert;
-import bartburg.nl.backbaseweather.helper.MetricUnitSystemHelper;
-import bartburg.nl.backbaseweather.helper.WeatherDescriptionHelper;
+import bartburg.nl.backbaseweather.util.MetricUnitSystemUtil;
+import bartburg.nl.backbaseweather.util.WeatherDescriptionUtil;
 import bartburg.nl.backbaseweather.model.City;
 import bartburg.nl.backbaseweather.provision.local.controller.city.CityDbHandler;
 import bartburg.nl.backbaseweather.provision.remote.controller.BaseApiController;
@@ -113,7 +113,7 @@ public class LocationFragment extends Fragment implements OnCurrentCityLoadedLis
     private void setViewValues() {
         if (city != null) {
             cityNameTextView.setText(city.getName());
-            unitSystemTextView.setText(MetricUnitSystemHelper.getWeatherUnitSystem(getContext()) == MetricUnitSystemHelper.getWeatherUnitSystem(getContext()) ? "C" : "F");
+            unitSystemTextView.setText(MetricUnitSystemUtil.getWeatherUnitSystem(getContext()) == MetricUnitSystemUtil.getWeatherUnitSystem(getContext()) ? "C" : "F");
         }
     }
 
@@ -161,8 +161,8 @@ public class LocationFragment extends Fragment implements OnCurrentCityLoadedLis
                     view.post(new Runnable() {
                         @Override
                         public void run() {
-                            temperatureTextView.setText(WeatherDescriptionHelper.getTemperature(weatherResponse, false, MetricUnitSystemHelper.getWeatherUnitSystem(getContext())));
-                            int weatherImage = WeatherDescriptionHelper.getWeatherImage(weatherResponse);
+                            temperatureTextView.setText(WeatherDescriptionUtil.getTemperature(weatherResponse, false, MetricUnitSystemUtil.getWeatherUnitSystem(getContext())));
+                            int weatherImage = WeatherDescriptionUtil.getWeatherImage(weatherResponse);
                             if (weatherImage > 0) {
                                 weatherIconImageView.setImageResource(weatherImage);
                             }

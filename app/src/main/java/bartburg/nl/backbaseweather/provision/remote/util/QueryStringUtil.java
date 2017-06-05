@@ -1,4 +1,4 @@
-package bartburg.nl.backbaseweather.provision.remote.helper;
+package bartburg.nl.backbaseweather.provision.remote.util;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -9,7 +9,7 @@ import java.util.Map;
  * Created by Bart on 6/3/2017.
  */
 
-public class QueryStringHelper {
+public class QueryStringUtil {
     public static String mapToQueryString(HashMap<String, String> map) {
         StringBuilder sb = new StringBuilder();
         try {

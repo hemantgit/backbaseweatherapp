@@ -13,14 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bartburg.nl.backbaseweather.R;
-import bartburg.nl.backbaseweather.helper.MetricUnitSystemHelper;
-import bartburg.nl.backbaseweather.helper.WeatherDescriptionHelper;
+import bartburg.nl.backbaseweather.util.MetricUnitSystemUtil;
+import bartburg.nl.backbaseweather.util.WeatherDescriptionUtil;
 import bartburg.nl.backbaseweather.model.City;
-import bartburg.nl.backbaseweather.provision.remote.controller.BaseApiController;
-import bartburg.nl.backbaseweather.provision.remote.controller.weather.MultipleCitiesWeatherResponse;
 import bartburg.nl.backbaseweather.provision.remote.controller.weather.WeatherApiController;
 import bartburg.nl.backbaseweather.provision.remote.controller.weather.WeatherResponse;
-import bartburg.nl.backbaseweather.view.bookmarks.helper.CitiesListConverter;
 
 /**
  *
@@ -30,39 +27,11 @@ public class BookmarkRecyclerViewAdapter extends RecyclerView.Adapter<BookmarkRe
     private static final SparseArray<WeatherResponse> weatherResponses = new SparseArray<>();
     private final List<City> mValues;
     private final OnBookmarkInteractionListener mListener;
-    private final View parent;
     private Context context;
 
-    public BookmarkRecyclerViewAdapter(ArrayList<City> items, OnBookmarkInteractionListener listener, View parent) {
+    public BookmarkRecyclerViewAdapter(ArrayList<City> items, OnBookmarkInteractionListener listener) {
         mValues = items;
         mListener = listener;
-        this.parent = parent;
-        //getWeatherOfAllCities();
-    }
-
-    private void getWeatherOfAllCities() {
-        new WeatherApiController().getWeatherOfMultipleCities(CitiesListConverter.toArray(mValues), new WeatherApiController.OnMultipleCitiesWeatherResponseListener() {
-            @Override
-            public void onSuccess(MultipleCitiesWeatherResponse multipleCityWeatherResponse) {
-                List<WeatherResponse> receivedWeatherResponses = multipleCityWeatherResponse.getWeatherResponses();
-                if (receivedWeatherResponses != null) {
-                    for (WeatherResponse weatherResponse : receivedWeatherResponses) {
-                        weatherResponses.put(weatherResponse.getCityId(), weatherResponse);
-                    }
-                }
-                parent.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        notifyDataSetChanged();
-                    }
-                });
-            }
-        }, new BaseApiController.OnErrorListener() {
-            @Override
-            public void onError(int responseCode, String responseMessage) {
-
-            }
-        });
     }
 
     @Override
@@ -102,7 +71,7 @@ public class BookmarkRecyclerViewAdapter extends RecyclerView.Adapter<BookmarkRe
         if (weatherResponse != null && !weatherResponse.isExpired()) {
             updateWeatherData(weatherResponse, holder);
         } else {
-            requestWeatherData(holder);
+            requestWeatherData(holder); //TODO should retrieve all weather data
         }
     }
 
@@ -120,9 +89,9 @@ public class BookmarkRecyclerViewAdapter extends RecyclerView.Adapter<BookmarkRe
         holder.mView.post(new Runnable() {
             @Override
             public void run() {
-                holder.cityNameTextView.setText(WeatherDescriptionHelper.getFullCityName(weatherResponse));
-                holder.cityWeatherTextView.setText(WeatherDescriptionHelper.getShortDescription(weatherResponse, MetricUnitSystemHelper.getWeatherUnitSystem(context)));
-                int weatherImage = WeatherDescriptionHelper.getWeatherImage(weatherResponse);
+                holder.cityNameTextView.setText(WeatherDescriptionUtil.getFullCityName(weatherResponse));
+                holder.cityWeatherTextView.setText(WeatherDescriptionUtil.getShortDescription(weatherResponse, MetricUnitSystemUtil.getWeatherUnitSystem(context)));
+                int weatherImage = WeatherDescriptionUtil.getWeatherImage(weatherResponse);
                 if (weatherImage > 0) {
                     holder.cityWeatherIcon.setImageResource(weatherImage);
                 }

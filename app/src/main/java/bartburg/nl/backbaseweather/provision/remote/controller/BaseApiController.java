@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 import bartburg.nl.backbaseweather.AppConstants;
 import bartburg.nl.backbaseweather.provision.remote.annotation.ApiController;
-import bartburg.nl.backbaseweather.provision.remote.helper.QueryStringHelper;
+import bartburg.nl.backbaseweather.provision.remote.util.QueryStringUtil;
 
 import static bartburg.nl.backbaseweather.AppConstants.OPEN_WEATHER_MAP_BASE_URL;
 import static bartburg.nl.backbaseweather.AppConstants.OPEN_WEATHER_PROTOCOL;
@@ -49,7 +49,7 @@ public abstract class BaseApiController {
     public String get(HashMap<String, String> parameters, @Nullable OnErrorListener onErrorListener, @Nullable String customRelativePath) {
         try {
             parameters.put("appid", AppConstants.OPEN_WEATHER_MAP_KEY);
-            URL url = new URL(OPEN_WEATHER_PROTOCOL + OPEN_WEATHER_MAP_BASE_URL + getRelativePath(customRelativePath) + QueryStringHelper.mapToQueryString(parameters));
+            URL url = new URL(OPEN_WEATHER_PROTOCOL + OPEN_WEATHER_MAP_BASE_URL + getRelativePath(customRelativePath) + QueryStringUtil.mapToQueryString(parameters));
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
             urlConnection.connect();

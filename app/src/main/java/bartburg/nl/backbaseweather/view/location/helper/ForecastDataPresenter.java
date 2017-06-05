@@ -2,8 +2,8 @@ package bartburg.nl.backbaseweather.view.location.helper;
 
 import android.content.Context;
 
-import bartburg.nl.backbaseweather.helper.MetricUnitSystemHelper;
-import bartburg.nl.backbaseweather.helper.TemperatureUnitHelper;
+import bartburg.nl.backbaseweather.util.MetricUnitSystemUtil;
+import bartburg.nl.backbaseweather.util.TemperatureUnitUtil;
 import bartburg.nl.backbaseweather.model.Forecast;
 
 /**
@@ -20,9 +20,9 @@ public class ForecastDataPresenter {
     }
 
     public static String getTemperatureText(Forecast forecast, Context context) {
-        return TemperatureUnitHelper.getTemperatureString(forecast.getTemp().getMax(), true, MetricUnitSystemHelper.getWeatherUnitSystem(context))
+        return TemperatureUnitUtil.getTemperatureString(forecast.getTemp().getMax(), true, MetricUnitSystemUtil.getWeatherUnitSystem(context))
                 + "\n"
-                + TemperatureUnitHelper.getTemperatureString(forecast.getTemp().getMin(), true, MetricUnitSystemHelper.getWeatherUnitSystem(context));
+                + TemperatureUnitUtil.getTemperatureString(forecast.getTemp().getMin(), true, MetricUnitSystemUtil.getWeatherUnitSystem(context));
     }
 
     public static String getHumidityText(Forecast forecast) {

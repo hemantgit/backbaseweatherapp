@@ -1,4 +1,4 @@
-package bartburg.nl.backbaseweather.view.bookmarks.helper;
+package bartburg.nl.backbaseweather.view.bookmarks.util;
 
 import java.util.List;
 
