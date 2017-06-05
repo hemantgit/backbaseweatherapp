@@ -1,6 +1,6 @@
 package bartburg.nl.backbaseweather;
 
-import bartburg.nl.backbaseweather.enumeration.WeatherUnitSystem;
+import bartburg.nl.backbaseweather.enumeration.MetricUnitSystem;
 
 /**
  * Created by Bart on 6/3/2017.
@@ -20,5 +20,5 @@ public class AppConstants {
 
     public static final long FORECAST_EXPIRED_AFTER = 1000 * 60 * 5;
 
-    public static final WeatherUnitSystem WEATHER_UNIT_SYSTEM = WeatherUnitSystem.CELCIUS;
+    public static final MetricUnitSystem WEATHER_UNIT_SYSTEM = MetricUnitSystem.CELCIUS;
 }

@@ -9,14 +9,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import bartburg.nl.backbaseweather.R;
+import bartburg.nl.backbaseweather.helper.MetricUnitSystemHelper;
 import bartburg.nl.backbaseweather.helper.WeatherDescriptionHelper;
 import bartburg.nl.backbaseweather.model.City;
 import bartburg.nl.backbaseweather.provision.remote.controller.weather.WeatherApiController;
 import bartburg.nl.backbaseweather.provision.remote.controller.weather.WeatherResponse;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -67,7 +68,7 @@ public class BookmarkRecyclerViewAdapter extends RecyclerView.Adapter<BookmarkRe
             }
         });
         WeatherResponse weatherResponse = weatherResponses.get(city.getId());
-        if(weatherResponse != null && !weatherResponse.isExpired()){
+        if (weatherResponse != null && !weatherResponse.isExpired()) {
             updateWeatherData(weatherResponse, holder);
         } else {
             requestWeatherData(holder);
@@ -89,9 +90,9 @@ public class BookmarkRecyclerViewAdapter extends RecyclerView.Adapter<BookmarkRe
             @Override
             public void run() {
                 holder.cityNameTextView.setText(WeatherDescriptionHelper.getFullCityName(weatherResponse));
-                holder.cityWeatherTextView.setText(WeatherDescriptionHelper.getShortDescription(weatherResponse));
+                holder.cityWeatherTextView.setText(WeatherDescriptionHelper.getShortDescription(weatherResponse, MetricUnitSystemHelper.getWeatherUnitSystem(context)));
                 int weatherImage = WeatherDescriptionHelper.getWeatherImage(weatherResponse);
-                if(weatherImage > 0) {
+                if (weatherImage > 0) {
                     holder.cityWeatherIcon.setImageResource(weatherImage);
                 }
             }

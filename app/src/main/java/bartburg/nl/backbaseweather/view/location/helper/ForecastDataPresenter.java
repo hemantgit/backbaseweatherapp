@@ -1,5 +1,8 @@
 package bartburg.nl.backbaseweather.view.location.helper;
 
+import android.content.Context;
+
+import bartburg.nl.backbaseweather.helper.MetricUnitSystemHelper;
 import bartburg.nl.backbaseweather.helper.TemperatureUnitHelper;
 import bartburg.nl.backbaseweather.model.Forecast;
 
@@ -16,10 +19,10 @@ public class ForecastDataPresenter {
         return directions[(int) Math.round(((deg % 360.0) / 45)) % 8];
     }
 
-    public static String getTemperatureText(Forecast forecast) {
-        return TemperatureUnitHelper.getTemperatureString(forecast.getTemp().getMax(), true)
+    public static String getTemperatureText(Forecast forecast, Context context) {
+        return TemperatureUnitHelper.getTemperatureString(forecast.getTemp().getMax(), true, MetricUnitSystemHelper.getWeatherUnitSystem(context))
                 + "\n"
-                + TemperatureUnitHelper.getTemperatureString(forecast.getTemp().getMin(), true);
+                + TemperatureUnitHelper.getTemperatureString(forecast.getTemp().getMin(), true, MetricUnitSystemHelper.getWeatherUnitSystem(context));
     }
 
     public static String getHumidityText(Forecast forecast) {

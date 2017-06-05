@@ -80,7 +80,7 @@ public class LocationForecastFragment extends Fragment {
             ForecastDayViewHolder forecastDayViewHolder = forecastDayViewHolders.get(i);
             Forecast forecast = forecastDayViewHolder.getForecast();
             forecastDayViewHolder.getLabelTextView().setText(FirstDayCharacterProvider.getFirstDayCharacter(i));
-            forecastDayViewHolder.getTemperatureTextView().setText(ForecastDataPresenter.getTemperatureText(forecast));
+            forecastDayViewHolder.getTemperatureTextView().setText(ForecastDataPresenter.getTemperatureText(forecast, getContext()));
             forecastDayViewHolder.getHumidityTextView().setText(ForecastDataPresenter.getHumidityText(forecast));
             forecastDayViewHolder.getRainChanceTextView().setText(ForecastDataPresenter.getRainChanceText(forecast));
             forecastDayViewHolder.getWindTextView().setText(ForecastDataPresenter.getWindText(forecast));

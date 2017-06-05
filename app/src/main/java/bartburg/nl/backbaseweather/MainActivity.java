@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -22,17 +23,18 @@ import android.view.MenuItem;
 
 import com.crashlytics.android.Crashlytics;
 
+import bartburg.nl.backbaseweather.enumeration.MetricUnitSystem;
 import bartburg.nl.backbaseweather.model.City;
 import bartburg.nl.backbaseweather.model.Coordinates;
 import bartburg.nl.backbaseweather.provision.local.controller.city.CityDbHandler;
 import bartburg.nl.backbaseweather.provision.remote.controller.weather.WeatherApiController;
 import bartburg.nl.backbaseweather.provision.remote.controller.weather.WeatherResponse;
-import bartburg.nl.backbaseweather.view.bookmarks.BookmarksListFragment;
 import bartburg.nl.backbaseweather.view.bookmarks.BookmarksTabHostFragment;
 import bartburg.nl.backbaseweather.view.bookmarks.CityAction;
 import bartburg.nl.backbaseweather.view.bookmarks.OnBookmarkInteractionListener;
 import bartburg.nl.backbaseweather.view.help.HelpFragment;
 import bartburg.nl.backbaseweather.view.location.LocationFragment;
+import bartburg.nl.backbaseweather.view.settings.BackbaseWeatherPreferenceFragment;
 import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity
@@ -46,6 +48,7 @@ public class MainActivity extends AppCompatActivity
     private City currentCity;
     private NavigationView navigationView;
     private FragmentName openFragment;
+    public static MetricUnitSystem WEATHER_UNIT_SYSTEM = MetricUnitSystem.CELCIUS;
 
     @Override
     public void onCityBookmarkChanged(City city, boolean bookmark) {
@@ -96,7 +99,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void getUserLocation() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (Build.VERSION.SDK_INT >= 23 &&
+                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSION_ACCESS_ACCESS_FINE_LOCATION);
         } else {
@@ -217,7 +221,7 @@ public class MainActivity extends AppCompatActivity
                 fragmentTransaction.replace(R.id.main_fragment_container, new HelpFragment());
                 break;
             case SETTINGS:
-                fragmentTransaction.replace(R.id.main_fragment_container, BookmarksListFragment.newInstance(1));
+                fragmentTransaction.replace(R.id.main_fragment_container, new BackbaseWeatherPreferenceFragment());
                 break;
         }
         fragmentTransaction.commitAllowingStateLoss();

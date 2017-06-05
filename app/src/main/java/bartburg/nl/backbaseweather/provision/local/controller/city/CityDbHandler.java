@@ -61,7 +61,8 @@ public class CityDbHandler extends SQLiteOpenHelper {
     public boolean addCity(City city) {
         if (city == null ||
                 city.getCoordinates() == null ||
-                doesCityExist(city.getId())) {
+                doesCityExist(city.getId()) ||
+                !validCity(city)) {
             // TODO call update
             return false;
         }
@@ -74,6 +75,10 @@ public class CityDbHandler extends SQLiteOpenHelper {
         db.insert(CITY_TABLE_NAME, null, values);
         db.close();
         return true;
+    }
+
+    private boolean validCity(City city) {
+        return city.getName() != null && !city.getName().isEmpty();
     }
 
     public void deleteCity(City city) {

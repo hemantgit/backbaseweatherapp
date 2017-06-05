@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import bartburg.nl.backbaseweather.MainActivity;
 import bartburg.nl.backbaseweather.R;
-import bartburg.nl.backbaseweather.enumeration.WeatherUnitSystem;
+import bartburg.nl.backbaseweather.helper.MetricUnitSystemHelper;
 import bartburg.nl.backbaseweather.helper.WeatherDescriptionHelper;
 import bartburg.nl.backbaseweather.model.City;
 import bartburg.nl.backbaseweather.provision.local.controller.city.CityDbHandler;
@@ -27,8 +27,6 @@ import bartburg.nl.backbaseweather.provision.remote.controller.forecast.Forecast
 import bartburg.nl.backbaseweather.provision.remote.controller.forecast.ForecastResponse;
 import bartburg.nl.backbaseweather.provision.remote.controller.weather.WeatherApiController;
 import bartburg.nl.backbaseweather.provision.remote.controller.weather.WeatherResponse;
-
-import static bartburg.nl.backbaseweather.AppConstants.WEATHER_UNIT_SYSTEM;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -116,7 +114,7 @@ public class LocationFragment extends Fragment implements OnCurrentCityLoadedLis
     private void setViewValues() {
         if (city != null) {
             cityNameTextView.setText(city.getName());
-            unitSystemTextView.setText(WEATHER_UNIT_SYSTEM == WeatherUnitSystem.CELCIUS ? "C" : "F");
+            unitSystemTextView.setText(MetricUnitSystemHelper.getWeatherUnitSystem(getContext()) == MetricUnitSystemHelper.getWeatherUnitSystem(getContext()) ? "C" : "F");
         }
     }
 
@@ -164,7 +162,7 @@ public class LocationFragment extends Fragment implements OnCurrentCityLoadedLis
                     view.post(new Runnable() {
                         @Override
                         public void run() {
-                            temperatureTextView.setText(WeatherDescriptionHelper.getTemperature(weatherResponse, false));
+                            temperatureTextView.setText(WeatherDescriptionHelper.getTemperature(weatherResponse, false, MetricUnitSystemHelper.getWeatherUnitSystem(getContext())));
                             int weatherImage = WeatherDescriptionHelper.getWeatherImage(weatherResponse);
                             if (weatherImage > 0) {
                                 weatherIconImageView.setImageResource(weatherImage);

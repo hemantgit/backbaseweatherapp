@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 import bartburg.nl.backbaseweather.R;
+import bartburg.nl.backbaseweather.enumeration.MetricUnitSystem;
 import bartburg.nl.backbaseweather.model.Weather;
 import bartburg.nl.backbaseweather.provision.remote.controller.weather.WeatherResponse;
 
@@ -15,8 +16,8 @@ public class WeatherDescriptionHelper {
 
     public static DecimalFormat decimalFormat = new DecimalFormat("#.0");
 
-    public static String getShortDescription(WeatherResponse weatherResponse) {
-        return getTemperature(weatherResponse, true) + getWeatherMessage(weatherResponse);
+    public static String getShortDescription(WeatherResponse weatherResponse, MetricUnitSystem metricUnitSystem) {
+        return getTemperature(weatherResponse, true, metricUnitSystem) + getWeatherMessage(weatherResponse);
     }
 
     private static String getWeatherMessage(WeatherResponse weatherResponse) {
@@ -29,8 +30,8 @@ public class WeatherDescriptionHelper {
         return "";
     }
 
-    public static String getTemperature(WeatherResponse weatherResponse, boolean withUnit) {
-        return TemperatureUnitHelper.getTemperatureString(weatherResponse.getMain().getTemp(), withUnit);
+    public static String getTemperature(WeatherResponse weatherResponse, boolean withUnit, MetricUnitSystem metricUnitSystem) {
+        return TemperatureUnitHelper.getTemperatureString(weatherResponse.getMain().getTemp(), withUnit, metricUnitSystem);
     }
 
     public static int getWeatherImage(WeatherResponse weatherResponse) {

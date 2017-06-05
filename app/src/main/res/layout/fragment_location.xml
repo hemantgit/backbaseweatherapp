@@ -1,92 +1,98 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<ScrollView android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue3"
-    android:orientation="vertical"
-    tools:context="bartburg.nl.backbaseweather.view.location.LocationFragment">
-
-    <RelativeLayout
-        android:id="@+id/city_header_container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <LinearLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
-        android:padding="20dp">
-
-        <ImageView
-            android:id="@+id/bookmarked_icon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentRight="true"
-            android:layout_margin="20dp"
-            android:tint="@color/white"
-            app:srcCompat="@drawable/bookmarks" />
-
-        <TextView
-            android:id="@+id/city_name_textview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/bookmarked_icon"
-            android:gravity="center_horizontal"
-            android:text="@string/label_no_information_yet"
-            android:textColor="@color/white"
-            android:textSize="30sp" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp">
+        android:background="@color/blue3"
+        android:orientation="vertical"
+        tools:context="bartburg.nl.backbaseweather.view.location.LocationFragment"
+        android:paddingBottom="20dp">
 
         <RelativeLayout
-            android:id="@+id/city_weather_container"
-            android:layout_width="wrap_content"
+            android:id="@+id/city_header_container"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true">
-
+            android:layout_marginBottom="30dp"
+            android:padding="20dp">
 
             <ImageView
-                android:id="@+id/weather_imageview"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                app:srcCompat="@drawable/sun"
-                android:layout_marginTop="15dp"
-                android:layout_marginRight="20dp"/>
+                android:id="@+id/bookmarked_icon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_margin="20dp"
+                android:tint="@color/white"
+                app:srcCompat="@drawable/bookmarks" />
 
             <TextView
-                android:id="@+id/temperature_textview"
-                android:layout_width="wrap_content"
+                android:id="@+id/city_name_textview"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/weather_imageview"
-                android:layout_marginTop="5dp"
+                android:layout_below="@id/bookmarked_icon"
+                android:gravity="center_horizontal"
                 android:text="@string/label_no_information_yet"
                 android:textColor="@color/white"
-                android:textSize="80sp" />
-
-            <TextView
-                android:id="@+id/degrees"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/temperature_textview"
-                android:text="°"
-                android:textColor="@color/white"
-                android:textSize="60sp" />
-
-            <TextView
-                android:id="@+id/unit_system_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/degrees"
-                android:text="C"
-                android:textColor="@color/white"
-                android:textSize="60sp" />
+                android:textSize="30sp" />
         </RelativeLayout>
-    </RelativeLayout>
 
-    <FrameLayout
-        android:id="@+id/location_forecast_container"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="50dp">
 
-</LinearLayout>
+            <RelativeLayout
+                android:id="@+id/city_weather_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true">
+
+
+                <ImageView
+                    android:id="@+id/weather_imageview"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    app:srcCompat="@drawable/sun"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="20dp"/>
+
+                <TextView
+                    android:id="@+id/temperature_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/weather_imageview"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/label_no_information_yet"
+                    android:textColor="@color/white"
+                    android:textSize="80sp" />
+
+                <TextView
+                    android:id="@+id/degrees"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/temperature_textview"
+                    android:text="°"
+                    android:textColor="@color/white"
+                    android:textSize="60sp" />
+
+                <TextView
+                    android:id="@+id/unit_system_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/degrees"
+                    android:text="C"
+                    android:textColor="@color/white"
+                    android:textSize="60sp" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <FrameLayout
+            android:id="@+id/location_forecast_container"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+</ScrollView>

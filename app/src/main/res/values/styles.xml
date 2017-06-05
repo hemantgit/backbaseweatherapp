@@ -6,6 +6,12 @@
         <item name="colorPrimary">@color/blue3</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="preferenceTheme">@style/customPreferenceTheme</item>
+    </style>
+
+    <style name="customPreferenceTheme" parent="PreferenceThemeOverlay">
+        <item name="android:textColorPrimary">#ffffff</item>
+        <item name="android:textColorSecondary">#ffffff</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -27,6 +33,11 @@
     </style>
 
     <style name="forecast_table_text_view_header" parent="forecast_table_text_view">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+
+    <style name="WhiteTextAppearance" parent="@android:style/TextAppearance.Large">
         <item name="android:textColor">@color/white</item>
     </style>
 

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="metric_system_entries">
+        <item>° Celsius</item>
+        <item>° Fahrenheit</item>
+    </string-array>
+    <string-array name="metric_system_values">
+        <item>Celsius</item>
+        <item>Fahrenheit</item>
+    </string-array>
+</resources>
