@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 import bartburg.nl.backbaseweather.R;
 import bartburg.nl.backbaseweather.view.bookmarks.OnBookmarkInteractionListener;
-import bartburg.nl.backbaseweather.view.search.dummy.SearchableCitiesContainer;
+import bartburg.nl.backbaseweather.view.search.data.SearchableCitiesContainer;
 
 /**
  *

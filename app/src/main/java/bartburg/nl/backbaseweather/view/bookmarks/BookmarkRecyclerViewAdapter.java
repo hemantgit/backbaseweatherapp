@@ -13,11 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bartburg.nl.backbaseweather.R;
-import bartburg.nl.backbaseweather.util.MetricUnitSystemUtil;
-import bartburg.nl.backbaseweather.util.WeatherDescriptionUtil;
 import bartburg.nl.backbaseweather.model.City;
 import bartburg.nl.backbaseweather.provision.remote.controller.weather.WeatherApiController;
 import bartburg.nl.backbaseweather.provision.remote.controller.weather.WeatherResponse;
+import bartburg.nl.backbaseweather.util.MetricUnitSystemUtil;
+import bartburg.nl.backbaseweather.util.WeatherDescriptionUtil;
 
 /**
  *
@@ -25,13 +25,13 @@ import bartburg.nl.backbaseweather.provision.remote.controller.weather.WeatherRe
 public class BookmarkRecyclerViewAdapter extends RecyclerView.Adapter<BookmarkRecyclerViewAdapter.ViewHolder> {
 
     private static final SparseArray<WeatherResponse> weatherResponses = new SparseArray<>();
-    private final List<City> mValues;
-    private final OnBookmarkInteractionListener mListener;
+    private final List<City> values;
+    private final OnBookmarkInteractionListener listener;
     private Context context;
 
     public BookmarkRecyclerViewAdapter(ArrayList<City> items, OnBookmarkInteractionListener listener) {
-        mValues = items;
-        mListener = listener;
+        values = items;
+        this.listener = listener;
     }
 
     @Override
@@ -44,26 +44,26 @@ public class BookmarkRecyclerViewAdapter extends RecyclerView.Adapter<BookmarkRe
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        City city = mValues.get(position);
-        holder.mCity = city;
+        City city = values.get(position);
+        holder.city = city;
         holder.cityNameTextView.setText(city.getName());
-        holder.mView.setOnClickListener(new View.OnClickListener() {
+        holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mListener != null) {
-                    mListener.onBookmarkInteraction(holder.mCity, CityAction.LOAD);
+                if (listener != null) {
+                    listener.onBookmarkInteraction(holder.city, CityAction.LOAD);
                 }
             }
         });
-        holder.mRemoveClickArea.setOnClickListener(new View.OnClickListener() {
+        holder.removeClickArea.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mListener != null) {
-                    mListener.onBookmarkInteraction(holder.mCity, CityAction.DELETE);
-                    int indexOfCity = mValues.indexOf(holder.mCity);
-                    mValues.remove(indexOfCity);
+                if (listener != null) {
+                    listener.onBookmarkInteraction(holder.city, CityAction.DELETE);
+                    int indexOfCity = values.indexOf(holder.city);
+                    values.remove(indexOfCity);
                     notifyItemRemoved(indexOfCity);
-                    notifyItemRangeChanged(indexOfCity, mValues.size());
+                    notifyItemRangeChanged(indexOfCity, values.size());
                 }
             }
         });
@@ -76,7 +76,7 @@ public class BookmarkRecyclerViewAdapter extends RecyclerView.Adapter<BookmarkRe
     }
 
     private void requestWeatherData(final ViewHolder holder) {
-        new WeatherApiController().getWeather(holder.mCity.getName(), new WeatherApiController.OnWeatherResponseListener() {
+        new WeatherApiController().getWeather(holder.city.getName(), new WeatherApiController.OnWeatherResponseListener() {
             @Override
             public void onSuccess(final WeatherResponse weatherResponse) {
                 weatherResponses.put(weatherResponse.getCityId(), weatherResponse);
@@ -86,7 +86,7 @@ public class BookmarkRecyclerViewAdapter extends RecyclerView.Adapter<BookmarkRe
     }
 
     private void updateWeatherData(final WeatherResponse weatherResponse, final ViewHolder holder) {
-        holder.mView.post(new Runnable() {
+        holder.view.post(new Runnable() {
             @Override
             public void run() {
                 holder.cityNameTextView.setText(WeatherDescriptionUtil.getFullCityName(weatherResponse));
@@ -101,24 +101,24 @@ public class BookmarkRecyclerViewAdapter extends RecyclerView.Adapter<BookmarkRe
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return values.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
+        public final View view;
         public final TextView cityNameTextView;
         public final TextView cityWeatherTextView;
         public final ImageView cityWeatherIcon;
-        public final View mRemoveClickArea;
-        public City mCity;
+        public final View removeClickArea;
+        public City city;
 
         public ViewHolder(View view) {
             super(view);
-            mView = view;
+            this.view = view;
             cityNameTextView = (TextView) view.findViewById(R.id.city_name_textview);
             cityWeatherTextView = (TextView) view.findViewById(R.id.content);
             cityWeatherIcon = (ImageView) view.findViewById(R.id.icon_weather);
-            mRemoveClickArea = view.findViewById(R.id.remove_click_area);
+            removeClickArea = view.findViewById(R.id.remove_click_area);
         }
 
         @Override

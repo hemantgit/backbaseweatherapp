@@ -1,4 +1,4 @@
-package bartburg.nl.backbaseweather.view.search.dummy;
+package bartburg.nl.backbaseweather.view.search.data;
 
 
 import java.util.ArrayList;

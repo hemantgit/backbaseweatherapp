@@ -20,7 +20,7 @@ public class BookmarksTabHostFragment extends Fragment {
     private static final String LIST_TAB_TAG = "listTabTag";
     private static final String MAP_TAB_TAG = "mapTabTag";
     private String openTabTag = LIST_TAB_TAG;
-    private FragmentTabHost mTabHost;
+    private FragmentTabHost tabhost;
 
     public BookmarksTabHostFragment() {
     }
@@ -46,22 +46,22 @@ public class BookmarksTabHostFragment extends Fragment {
     }
 
     private void initTabHost(View parent) {
-        mTabHost = (FragmentTabHost) parent.findViewById(R.id.tab_host_parent);
-        mTabHost.setup(getActivity(), getChildFragmentManager(), R.id.realtabcontent);
+        tabhost = (FragmentTabHost) parent.findViewById(R.id.tab_host_parent);
+        tabhost.setup(getActivity(), getChildFragmentManager(), R.id.realtabcontent);
 
-        mTabHost.addTab(mTabHost.newTabSpec(LIST_TAB_TAG).setIndicator("List"),
+        tabhost.addTab(tabhost.newTabSpec(LIST_TAB_TAG).setIndicator("List"),
                 BookmarksListFragment.class, null);
-        mTabHost.addTab(mTabHost.newTabSpec(MAP_TAB_TAG).setIndicator("Map"),
+        tabhost.addTab(tabhost.newTabSpec(MAP_TAB_TAG).setIndicator("Map"),
                 BookmarksMapFragment.class, null);
 
-        mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+        tabhost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
-                mTabHost.getCurrentTab();
+                tabhost.getCurrentTab();
             }
         });
 
-        mTabHost.setCurrentTabByTag(openTabTag);
+        tabhost.setCurrentTabByTag(openTabTag);
     }
 
     @Override

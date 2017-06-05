@@ -40,7 +40,7 @@ public class BookmarksMapFragment extends Fragment implements OnMapReadyCallback
     private float zoom = 8f;
     private GoogleMap googleMap;
     private MapView mapView;
-    private OnBookmarkInteractionListener mListener;
+    private OnBookmarkInteractionListener listener;
     HashMap<Marker, City> markerCityMap = new HashMap<>();
 
 
@@ -142,7 +142,7 @@ public class BookmarksMapFragment extends Fragment implements OnMapReadyCallback
                             @Override
                             public void run() {
                                 City city = weatherResponse.getCity();
-                                mListener.onBookmarkInteraction(city, CityAction.ADD);
+                                listener.onBookmarkInteraction(city, CityAction.ADD);
                                 placeMarker(city);
                             }
                         });
@@ -159,7 +159,7 @@ public class BookmarksMapFragment extends Fragment implements OnMapReadyCallback
             public boolean onMarkerClick(Marker marker) {
                 City city = markerCityMap.get(marker);
                 if (city != null) {
-                    mListener.onBookmarkInteraction(city, CityAction.LOAD);
+                    listener.onBookmarkInteraction(city, CityAction.LOAD);
                     return true;
                 }
                 return false;
@@ -171,7 +171,7 @@ public class BookmarksMapFragment extends Fragment implements OnMapReadyCallback
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnBookmarkInteractionListener) {
-            mListener = (OnBookmarkInteractionListener) context;
+            listener = (OnBookmarkInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnBookmarkInteractionListener");
@@ -181,7 +181,7 @@ public class BookmarksMapFragment extends Fragment implements OnMapReadyCallback
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+        listener = null;
     }
 
 }

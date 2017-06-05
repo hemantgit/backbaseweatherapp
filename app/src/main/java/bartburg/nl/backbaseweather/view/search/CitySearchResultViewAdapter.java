@@ -23,11 +23,11 @@ import bartburg.nl.backbaseweather.view.bookmarks.OnBookmarkInteractionListener;
 public class CitySearchResultViewAdapter extends RecyclerView.Adapter<CitySearchResultViewAdapter.ViewHolder> {
 
     private final List<String> values;
-    private final OnBookmarkInteractionListener mListener;
+    private final OnBookmarkInteractionListener listener;
 
     public CitySearchResultViewAdapter(List<String> items, OnBookmarkInteractionListener listener) {
         values = items;
-        mListener = listener;
+        this.listener = listener;
     }
 
     @Override
@@ -46,11 +46,11 @@ public class CitySearchResultViewAdapter extends RecyclerView.Adapter<CitySearch
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != mListener) {
+                if (null != listener) {
                     new WeatherApiController().getWeather(holder.cityName, new WeatherApiController.OnWeatherResponseListener() {
                         @Override
                         public void onSuccess(WeatherResponse weatherResponse) {
-                           mListener.onBookmarkInteraction(weatherResponse.getCity(), CityAction.LOAD);
+                           listener.onBookmarkInteraction(weatherResponse.getCity(), CityAction.LOAD);
                         }
                     }, null);
                 }

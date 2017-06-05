@@ -25,8 +25,8 @@ import bartburg.nl.backbaseweather.provision.local.controller.city.CityDbHandler
 public class BookmarksListFragment extends Fragment {
 
     private static final String ARG_COLUMN_COUNT = "column-count";
-    private int mColumnCount = 1;
-    private OnBookmarkInteractionListener mListener;
+    private int colummnCount = 1;
+    private OnBookmarkInteractionListener listener;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -49,7 +49,7 @@ public class BookmarksListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+            colummnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
     }
 
@@ -61,13 +61,13 @@ public class BookmarksListFragment extends Fragment {
         if (listView instanceof RecyclerView) {
             Context context = listView.getContext();
             RecyclerView recyclerView = (RecyclerView) listView;
-            if (mColumnCount <= 1) {
+            if (colummnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+                recyclerView.setLayoutManager(new GridLayoutManager(context, colummnCount));
             }
             ArrayList<City> allCities = new CityDbHandler(context).getAllCities();
-            recyclerView.setAdapter(new BookmarkRecyclerViewAdapter(allCities, mListener));
+            recyclerView.setAdapter(new BookmarkRecyclerViewAdapter(allCities, listener));
             parent.findViewById(R.id.no_bookmarked_locations_textview).setVisibility(allCities.isEmpty() ? View.VISIBLE : View.GONE);
         }
         return parent;
@@ -78,7 +78,7 @@ public class BookmarksListFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnBookmarkInteractionListener) {
-            mListener = (OnBookmarkInteractionListener) context;
+            listener = (OnBookmarkInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnBookmarkInteractionListener");
@@ -88,6 +88,6 @@ public class BookmarksListFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+        listener = null;
     }
 }
