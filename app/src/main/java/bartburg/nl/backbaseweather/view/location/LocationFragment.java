@@ -17,8 +17,7 @@ import android.widget.TextView;
 import bartburg.nl.backbaseweather.MainActivity;
 import bartburg.nl.backbaseweather.R;
 import bartburg.nl.backbaseweather.alert.ServerErrorAlert;
-import bartburg.nl.backbaseweather.util.MetricUnitSystemUtil;
-import bartburg.nl.backbaseweather.util.WeatherDescriptionUtil;
+import bartburg.nl.backbaseweather.enumeration.MetricUnitSystem;
 import bartburg.nl.backbaseweather.model.City;
 import bartburg.nl.backbaseweather.provision.local.controller.city.CityDbHandler;
 import bartburg.nl.backbaseweather.provision.remote.controller.BaseApiController;
@@ -26,6 +25,8 @@ import bartburg.nl.backbaseweather.provision.remote.controller.forecast.Forecast
 import bartburg.nl.backbaseweather.provision.remote.controller.forecast.ForecastResponse;
 import bartburg.nl.backbaseweather.provision.remote.controller.weather.WeatherApiController;
 import bartburg.nl.backbaseweather.provision.remote.controller.weather.WeatherResponse;
+import bartburg.nl.backbaseweather.util.MetricUnitSystemUtil;
+import bartburg.nl.backbaseweather.util.WeatherDescriptionUtil;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -113,7 +114,7 @@ public class LocationFragment extends Fragment implements OnCurrentCityLoadedLis
     private void setViewValues() {
         if (city != null) {
             cityNameTextView.setText(city.getName());
-            unitSystemTextView.setText(MetricUnitSystemUtil.getWeatherUnitSystem(getContext()) == MetricUnitSystemUtil.getWeatherUnitSystem(getContext()) ? "C" : "F");
+            unitSystemTextView.setText(MetricUnitSystemUtil.getWeatherUnitSystem(getContext()) == MetricUnitSystem.CELCIUS ? "C" : "F");
         }
     }
 
