@@ -18,7 +18,7 @@ public class MetricUnitSystemUtil {
             case "Fahrenheit":
                 return MetricUnitSystem.FAHRENHEIT;
             default:
-                return MetricUnitSystem.CELCIUS;
+                return MetricUnitSystem.CELSIUS;
         }
     }
 }

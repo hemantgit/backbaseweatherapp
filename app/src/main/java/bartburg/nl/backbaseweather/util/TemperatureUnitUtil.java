@@ -13,7 +13,7 @@ public class TemperatureUnitUtil {
     public static DecimalFormat decimalFormat = new DecimalFormat("0.0");
 
     public static String getTemperatureString(double kelvinValue, boolean withUnit, MetricUnitSystem metricUnitSystem) {
-        if (metricUnitSystem == MetricUnitSystem.CELCIUS) {
+        if (metricUnitSystem == MetricUnitSystem.CELSIUS) {
             double temperatureInCelsius = TemperatureUnitUtil.kelvinToCelsius(kelvinValue);
             return decimalFormat.format(temperatureInCelsius) + (withUnit ? (char) 0x00B0 + "C" : "");
         } else {

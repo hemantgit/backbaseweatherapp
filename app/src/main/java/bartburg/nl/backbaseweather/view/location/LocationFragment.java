@@ -114,7 +114,7 @@ public class LocationFragment extends Fragment implements OnCurrentCityLoadedLis
     private void setViewValues() {
         if (city != null) {
             cityNameTextView.setText(city.getName());
-            unitSystemTextView.setText(MetricUnitSystemUtil.getWeatherUnitSystem(getContext()) == MetricUnitSystem.CELCIUS ? "C" : "F");
+            unitSystemTextView.setText(MetricUnitSystemUtil.getWeatherUnitSystem(getContext()) == MetricUnitSystem.CELSIUS ? "C" : "F");
         }
     }
 

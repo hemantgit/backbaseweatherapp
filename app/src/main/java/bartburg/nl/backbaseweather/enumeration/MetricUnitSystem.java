@@ -6,7 +6,7 @@ package bartburg.nl.backbaseweather.enumeration;
 
 public enum MetricUnitSystem {
 
-    CELCIUS(0),
+    CELSIUS(0),
     FAHRENHEIT(1);
 
     private final int value;

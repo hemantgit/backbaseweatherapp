@@ -20,5 +20,5 @@ public class AppConstants {
 
     public static final long FORECAST_EXPIRED_AFTER = 1000 * 60 * 5;
 
-    public static final MetricUnitSystem WEATHER_UNIT_SYSTEM = MetricUnitSystem.CELCIUS;
+    public static final MetricUnitSystem WEATHER_UNIT_SYSTEM = MetricUnitSystem.CELSIUS;
 }
