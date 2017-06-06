@@ -18,4 +18,6 @@
     <string name="default_confirm">OK</string>
     <string name="no_bookmarked_locations">There are no bookmarked locations</string>
     <string name="filter_label">Search</string>
+    <string name="label_place_bookmark">Bookmark location</string>
+    <string name="label_click_on_map">Click on the map</string>
 </resources>

@@ -36,6 +36,7 @@ public class CityDbHandler extends SQLiteOpenHelper {
                 + COLUMN_LONGITUDE + " REAL "
                 + ");";
         db.execSQL(sqlCreateTable);
+        db.close();
 
     }
 
@@ -87,43 +88,58 @@ public class CityDbHandler extends SQLiteOpenHelper {
     public void deleteCity(Integer id) {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("DELETE FROM " + CITY_TABLE_NAME + " WHERE " + COLUMN_ID + " = " + String.valueOf(id));
+        db.close();
     }
 
     public boolean doesCityExist(Integer cityId) {
+        boolean returnVal = true;
         SQLiteDatabase db = getReadableDatabase();
         String query = "SELECT * FROM " + CITY_TABLE_NAME + " WHERE " + COLUMN_ID + " = " + String.valueOf(cityId);
         Cursor cursor = db.rawQuery(query, null);
-        if (cursor.getCount() <= 0) {
+        try {
+            if (cursor.getCount() <= 0) {
+                cursor.close();
+                returnVal = false;
+            }
+        } finally {
             cursor.close();
-            return false;
+            db.close();
         }
-        cursor.close();
-        return true;
+        return returnVal;
     }
 
     public ArrayList<City> getAllCities() {
         ArrayList<City> cities = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + CITY_TABLE_NAME, null);
-        if (cursor.moveToFirst()) {
-            while (!cursor.isAfterLast()) {
-                Integer id = cursor.getInt(cursor.getColumnIndex(COLUMN_ID));
-                String cityName = cursor.getString(cursor.getColumnIndex(COLUMN_CITY_NAME));
-                double latitude = cursor.getDouble(cursor.getColumnIndex(COLUMN_LATITUDE));
-                double longitude = cursor.getDouble(cursor.getColumnIndex(COLUMN_LONGITUDE));
-                cities.add(new City(id, cityName, new Coordinates(latitude, longitude)));
-                cursor.moveToNext();
+        try {
+            if (cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    Integer id = cursor.getInt(cursor.getColumnIndex(COLUMN_ID));
+                    String cityName = cursor.getString(cursor.getColumnIndex(COLUMN_CITY_NAME));
+                    double latitude = cursor.getDouble(cursor.getColumnIndex(COLUMN_LATITUDE));
+                    double longitude = cursor.getDouble(cursor.getColumnIndex(COLUMN_LONGITUDE));
+                    cities.add(new City(id, cityName, new Coordinates(latitude, longitude)));
+                    cursor.moveToNext();
+                }
             }
+        } finally {
+            cursor.close();
+            db.close();
         }
-        cursor.close();
         return cities;
     }
 
     public boolean cityInDb(int cityId) {
+        boolean inDb = false;
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + CITY_TABLE_NAME + " WHERE " + COLUMN_ID + " = " + cityId + ";", null);
-        boolean inDb = cursor.getCount() > 0;
-        cursor.close();
+        try {
+            inDb = cursor.getCount() > 0;
+        } finally {
+            cursor.close();
+            db.close();
+        }
         return inDb;
     }
 }

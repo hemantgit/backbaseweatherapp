@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,6 +25,7 @@ import bartburg.nl.backbaseweather.provision.remote.controller.forecast.Forecast
 import bartburg.nl.backbaseweather.provision.remote.controller.weather.WeatherApiController;
 import bartburg.nl.backbaseweather.provision.remote.controller.weather.WeatherResponse;
 import bartburg.nl.backbaseweather.util.MetricUnitSystemUtil;
+import bartburg.nl.backbaseweather.util.ViewTransparencyAnimator;
 import bartburg.nl.backbaseweather.util.WeatherDescriptionUtil;
 
 /**
@@ -136,14 +136,11 @@ public class LocationFragment extends Fragment implements OnCurrentCityLoadedLis
 
     private void setBookmarkedIcon(View parent, boolean animate) {
         if (parent != null) {
-            AlphaAnimation animation1 = new AlphaAnimation(currentBookmarkIconAlpha, cityBookmarked ? 1f : 0.15f);
-            animation1.setDuration(animate ? 150 : 0);
-            animation1.setStartOffset(0);
-            animation1.setFillAfter(true);
-            bookmarkIcon.startAnimation(animation1);
+            ViewTransparencyAnimator.animateTransparency(animate, currentBookmarkIconAlpha, cityBookmarked ? 1f : 0.15f, bookmarkIcon);
             currentBookmarkIconAlpha = cityBookmarked ? 1f : 0.15f;
         }
     }
+
 
     private void getWeatherAndForecast() {
         if (city == null) {

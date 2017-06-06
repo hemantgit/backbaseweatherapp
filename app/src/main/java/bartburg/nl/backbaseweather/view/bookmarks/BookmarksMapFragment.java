@@ -26,6 +26,7 @@ import bartburg.nl.backbaseweather.model.Coordinates;
 import bartburg.nl.backbaseweather.provision.local.controller.city.CityDbHandler;
 import bartburg.nl.backbaseweather.provision.remote.controller.weather.WeatherApiController;
 import bartburg.nl.backbaseweather.provision.remote.controller.weather.WeatherResponse;
+import bartburg.nl.backbaseweather.util.ViewTransparencyAnimator;
 
 /**
  * created by Bart Burg
@@ -38,10 +39,15 @@ public class BookmarksMapFragment extends Fragment implements OnMapReadyCallback
     private double latitude = 52.1588484;
     private double longitude = 5.0566821;
     private float zoom = 8f;
-    private GoogleMap googleMap;
+    private static final float ALPHA_INACTIVE = 0.4f;
+    boolean bookmarkButtonActive = false;
     private MapView mapView;
     private OnBookmarkInteractionListener listener;
     HashMap<Marker, City> markerCityMap = new HashMap<>();
+
+    private GoogleMap googleMap;
+    private View placeMarkerButton;
+    private View placeMarkerButtonInner;
 
 
     public BookmarksMapFragment() {
@@ -79,6 +85,10 @@ public class BookmarksMapFragment extends Fragment implements OnMapReadyCallback
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View parent = inflater.inflate(R.layout.fragment_bookmarks_map, container, false);
+        placeMarkerButtonInner = parent.findViewById(R.id.place_marker_button_inner);
+        placeMarkerButton = parent.findViewById(R.id.place_marker_button);
+        placeMarkerButton.setOnClickListener(getOnPlaceMarkerButtonClickListener());
+        ViewTransparencyAnimator.animateTransparency(false, bookmarkButtonActive ? ALPHA_INACTIVE : 1f, bookmarkButtonActive ? 1f : ALPHA_INACTIVE, placeMarkerButtonInner);
         initMap(parent, savedInstanceState);
         return parent;
     }
@@ -110,7 +120,8 @@ public class BookmarksMapFragment extends Fragment implements OnMapReadyCallback
         LatLng startPosition = new LatLng(latitude, longitude);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startPosition, zoom));
         placeMarkers(new CityDbHandler(getContext()).getAllCities());
-        googleMap.setOnMapLongClickListener(getOnMapLongclickListener());
+        googleMap.setOnMapLongClickListener(getOnMapLongClickListener());
+        googleMap.setOnMapClickListener(getOnMapClickListener());
     }
 
 
@@ -131,25 +142,42 @@ public class BookmarksMapFragment extends Fragment implements OnMapReadyCallback
         }
     }
 
-    private GoogleMap.OnMapLongClickListener getOnMapLongclickListener() {
+
+    private GoogleMap.OnMapClickListener getOnMapClickListener() {
+        return new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                if (bookmarkButtonActive) {
+                    placeBookmarkByLatLng(latLng);
+                }
+            }
+        };
+    }
+
+
+    private GoogleMap.OnMapLongClickListener getOnMapLongClickListener() {
         return new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
-                new WeatherApiController().getWeather(new Coordinates(latLng), new WeatherApiController.OnWeatherResponseListener() {
-                    @Override
-                    public void onSuccess(final WeatherResponse weatherResponse) {
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                City city = weatherResponse.getCity();
-                                listener.onBookmarkInteraction(city, CityAction.ADD);
-                                placeMarker(city);
-                            }
-                        });
-                    }
-                }, null);
+                placeBookmarkByLatLng(latLng);
             }
         };
+    }
+
+    private void placeBookmarkByLatLng(LatLng latLng) {
+        new WeatherApiController().getWeather(new Coordinates(latLng), new WeatherApiController.OnWeatherResponseListener() {
+            @Override
+            public void onSuccess(final WeatherResponse weatherResponse) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        City city = weatherResponse.getCity();
+                        listener.onBookmarkInteraction(city, CityAction.ADD);
+                        placeMarker(city);
+                    }
+                });
+            }
+        }, null);
     }
 
     @NonNull
@@ -184,4 +212,13 @@ public class BookmarksMapFragment extends Fragment implements OnMapReadyCallback
         listener = null;
     }
 
+    public View.OnClickListener getOnPlaceMarkerButtonClickListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bookmarkButtonActive = !bookmarkButtonActive;
+                ViewTransparencyAnimator.animateTransparency(bookmarkButtonActive ? ALPHA_INACTIVE : 1f, bookmarkButtonActive ? 1f : ALPHA_INACTIVE, placeMarkerButtonInner);
+            }
+        };
+    }
 }
