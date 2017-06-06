@@ -7,11 +7,10 @@ import java.lang.annotation.Target;
 
 /**
  * Created by Bart on 6/3/2017.
- *
  */
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface ApiController {
-    public String relativePath() default "";
+    String relativePath() default "";
 }
