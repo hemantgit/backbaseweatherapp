@@ -159,7 +159,7 @@ public class BookmarksMapFragment extends Fragment implements OnMapReadyCallback
         return new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
-                placeBookmarkByLatLng(latLng);
+                loadCityByLatLng(latLng);
             }
         };
     }
@@ -174,6 +174,21 @@ public class BookmarksMapFragment extends Fragment implements OnMapReadyCallback
                         City city = weatherResponse.getCity();
                         listener.onBookmarkInteraction(city, CityAction.ADD);
                         placeMarker(city);
+                    }
+                });
+            }
+        }, null);
+    }
+
+    private void loadCityByLatLng(LatLng latLng) {
+        new WeatherApiController().getWeather(new Coordinates(latLng), new WeatherApiController.OnWeatherResponseListener() {
+            @Override
+            public void onSuccess(final WeatherResponse weatherResponse) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        City city = weatherResponse.getCity();
+                        listener.onBookmarkInteraction(city, CityAction.LOAD);
                     }
                 });
             }
